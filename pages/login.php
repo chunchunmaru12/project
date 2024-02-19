@@ -18,11 +18,14 @@
 <?php
 include "../database/dbconnect.php";
 if(isset($_POST['submit'])){
+    session_start();
     $email = $_POST['mail'];
     $pass = $_POST['pass'];
+   
     $sql = "SELECT * FROM admin WHERE a_email = '$email' AND a_password = '$pass'";
     $result=mysqli_query($conn,$sql);
     if($result){
+        $_SESSION['email'] = $email;
         if (mysqli_num_rows($result) > 0) {
             header("Location: admin.php");
         } else {

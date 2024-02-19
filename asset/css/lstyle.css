@@ -31,7 +31,9 @@ input[type="email"],
 input[type="number"],
 input[type="file"],
 input[type="submit"],
-input[type="tel"] {
+input[type="tel"],
+input[type="password"]
+{
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ccc;

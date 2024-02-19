@@ -5,7 +5,7 @@ CREATE TABLE customer(
     c_contact bigint not null,
     c_name varchar(255) not null,
     c_address varchar(255) not null,
-    c_email varchar(255) not null,
+    c_email varchar(255) unique not null ,
 );
 
 CREATE TABLE admin(
