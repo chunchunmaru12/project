@@ -1,23 +1,13 @@
+<?php
+include 'admin_header.php';
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://kit.fontawesome.com/0f0259d364.js" crossorigin="anonymous"></script>
+    
     <style>
-        a{
-            text-decoration: none;
-            color:black
-        }
-
-        .right{
-            display: flex;
-            float: right;
-            gap:20px;
-        }
-        img{
-            width: 20px;
-        }
         section{
             display: flex;
             justify-content: center;
@@ -40,16 +30,7 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <i class="fa-brands fa-gratipay"></i>  Online bike rental system
-            <div class="right"><a href="#">Dashboard</a>
-            <a href="#">Bike</a>
-            <a href="#">Rentals</a>
-            <a href="#">Users</a>
-          <div class="btn"> <button>Create new listing</button></div> 
-          <a href="#"><img src="../asset/pic/1.png" alt=""></a>
-        </div>
-    </div>
+    
     <h1>Welcome <?php 
     include '../database/dbconnect.php';
     session_start();
@@ -58,6 +39,7 @@
     $result = mysqli_query($conn,$sql);
     $num = mysqli_num_rows($result); 
     if($num>0){
+        
         while($row = mysqli_fetch_assoc($result)){
             echo $row['a_name'];
         }
@@ -66,7 +48,21 @@
     ?> </h1>
     <section>
     <div class="bikes">
-        
+        <?php
+        $sql = "SELECT * FROM bike";
+        $result= mysqli_query($conn,$sql);
+        $num = mysqli_num_rows($result);
+        if($num>0){
+            while($row = mysqli_fetch_assoc($result)){
+                $imageURL = $row["b_image"];
+                $imageName= $row["b_name"];
+                $rate= $row["b_rate"];
+            }
+        }
+        ?>
+        <img src="<?php echo $imageURL;?>" alt="" style="width:200px;">
+        <p><?php echo $imageName;?></p>
+        <p>rate: Rs <?php echo $rate; ?>/hour</p>
     </div>
         <div class="request">
         </div>
