@@ -76,7 +76,6 @@ include 'admin_header.php';
   <h1>Bikes </h1>
   <div class="gallery">
     <?php
-    include '../database/dbconnect.php';
     $sql = "SELECT * FROM bike";
         $result= mysqli_query($conn,$sql);
         $num = mysqli_num_rows($result);

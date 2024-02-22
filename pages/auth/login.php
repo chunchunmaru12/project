@@ -27,13 +27,13 @@ if(isset($_POST['submit'])){
     if($result){
         $_SESSION['email'] = $email;
         if (mysqli_num_rows($result) > 0) {
-            header("Location: admin.php");
+            header("Location: ../admin/admin.php");
         } else {
            $ssql = "SELECT * FROM customer WHERE c_email = '$email' AND c_password = '$pass'";
            $rresult=mysqli_query($conn,$ssql);
            if($rresult){
                 if(mysqli_num_rows($rresult)>0){
-                    header("Location: user.php");
+                    header("Location: ../customer/customer_dashboard.php");
                 }
            }echo "Invalid credentials";
         }
