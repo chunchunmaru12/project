@@ -20,7 +20,6 @@ include 'customer_header.php'
     <br>
     <div class="main">
         <div class="bookings">
-        
             <h1>Total Bookings</h1>
             <i class="fa-solid fa-users"></i>
        
