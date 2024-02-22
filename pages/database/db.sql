@@ -6,6 +6,7 @@ CREATE TABLE customer(
     c_name varchar(255) not null,
     c_address varchar(255) not null,
     c_email varchar(255) unique not null ,
+    c_password varchar(255) not null,
 );
 
 CREATE TABLE admin(
@@ -24,16 +25,16 @@ CREATE TABLE bike(
     b_image varchar(255) not null,
     b_color varchar(255) not null,
     b_rate int not null,
-    b_status TINYINT DEFAULT 0
+    b_status TINYINT DEFAULT 1 NOT NULL
 );
 
 CREATE TABLE rent(
     r_id int primary key auto_increment,
-    r_pickup_time DATETIME not null,
+    r_pickup_time TIME not null,
     r_start_date date NOT NULL,
     r_end_date date NOT NULL,
-    r_drop_off_time DATETIME NOT NULL,    
-    r_status TINYINT DEFAULT 0,
+    r_drop_off_time TIME NOT NULL,    
+    r_status TINYINT DEFAULT 0 not null,
     c_license_photo varchar(255) not null,
     customer_id int,
     bike_id int,

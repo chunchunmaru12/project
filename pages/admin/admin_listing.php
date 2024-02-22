@@ -80,7 +80,7 @@ if(isset($_POST['submit'])){
     $sql="INSERT INTO bike(b_name, b_brand, b_image,b_color,b_rate,b_status) VALUES('$b_name','$b_brand','$folder','$b_color','$b_rate',1)";
     $result=mysqli_query($conn,$sql);
     if($result){
-        echo "<script>alert('bike added successfullly');</script>";
+        header('Location: admin.php');
     }
 }
 ?>

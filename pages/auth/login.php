@@ -21,23 +21,23 @@ if(isset($_POST['submit'])){
     session_start();
     $email = $_POST['mail'];
     $pass = $_POST['pass'];
-   
     $sql = "SELECT * FROM admin WHERE a_email = '$email' AND a_password = '$pass'";
     $result=mysqli_query($conn,$sql);
     if($result){
-        $_SESSION['email'] = $email;
-        if (mysqli_num_rows($result) > 0) {
+        if(mysqli_num_rows($result) > 0) {
+            $_SESSION['email'] = $email;
             header("Location: ../admin/admin.php");
-        } else {
-           $ssql = "SELECT * FROM customer WHERE c_email = '$email' AND c_password = '$pass'";
-           $rresult=mysqli_query($conn,$ssql);
-           if($rresult){
-                if(mysqli_num_rows($rresult)>0){
-                    header("Location: ../customer/customer_dashboard.php");
-                }
-           }echo "Invalid credentials";
         }
     }
+    $ssql = "SELECT * FROM customer WHERE c_email = '$email' AND c_password = '$pass'";
+    $rresult=mysqli_query($conn,$ssql);
+    if($rresult){ 
+        if(mysqli_num_rows($rresult)>0){
+            $_SESSION['email']=$email;
+            header("Location: ../customer/customer_dashboard.php");
+        }
+    }
+    echo "Invalid credentials";
 }
 ?>
 </body>

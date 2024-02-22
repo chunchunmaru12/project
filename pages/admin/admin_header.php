@@ -39,11 +39,10 @@
             <div class="right"><a href="#">Dashboard</a>
             <a href="#">Bike</a>
             <a href="#">Rentals</a>
-            <a href="#">Users</a>
           <div class="btn"> <button onclick="newList()">Create new listing</button></div> 
           <div class="profile-container">
             <img src="../asset/pic/1.png" alt="Profile Picture" class="profile-img" id="profile-img">
-            <div class="logout" id="logout"><a href="logout.php">Logout</a></div>
+            <div class="logout" id="logout"><a href="../auth/logout.php">Logout</a></div>
             </div>
         </div>
 </div>

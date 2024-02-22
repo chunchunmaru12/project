@@ -68,10 +68,7 @@ $row = mysqli_fetch_assoc($result)
   <h1>Edit Bike Details</h1>
   
     <div class="bike-form">
-    <form action="bike_update.php" method="post">
-      
-        <label for="bike_id">Bike Id:</label>
-        <input type="text" name="bike_id" value="<?php echo $row['b_id']; ?>">
+    <form action="" method="post">
         <label for="b_name">Bike Name:</label>
         <input type="text" id="b_name" name="b_name" value="<?php echo $row['b_name']; ?>" required>
         <label for="b_brand">Bike Brand:</label>
@@ -82,10 +79,21 @@ $row = mysqli_fetch_assoc($result)
         <input type="number"  id="b_rate" name="b_rate" value="<?php echo $row['b_rate']; ?>" required>
         <input type="submit" name="submit" value="Update" >
       </form>
-   
-      
     </div>
 </div>
+<?php
+if(isset($_POST['submit'])){
+  $b_name = $_POST['b_name'];
+  $b_brand = $_POST['b_brand'];
+  $b_color = $_POST['b_color'];
+  $b_rate = $_POST['b_rate'];
+  $sql="UPDATE bike SET b_name = '$b_name', b_brand = '$b_brand', b_color = '$b_color', b_rate = '$b_rate' WHERE b_id = '$bike_id'";
+  $result=mysqli_query($conn,$sql);
+  if($result){
+    header('Location: admin.php');
+  }
+}
 
+?>
 </body>
 </html>

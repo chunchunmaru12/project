@@ -14,16 +14,7 @@ include 'admin_header.php';
             align-items: center; 
             gap:20px;
         }
-        .request{
-            width: 200px;
-            height: 200px;
-            border: 2px solid black;
-        }
-        .bikes{
-            width: 200px;
-            height: 200px;
-            border: 2px solid black;
-        }
+      
         h1{
             text-align: center;
         }
@@ -38,20 +29,11 @@ include 'admin_header.php';
     margin: 20px auto;
     padding: 0 20px;
   }
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-gap: 20px;
+  table{
+    border-collapse: collapse;
   }
-  .bike {
-    display: block;
-    width: 100%;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-  .bike:hover {
-    transform: scale(1.05);
+  tr,td{
+    padding: 20px;
   }
     </style>
 </head>
@@ -75,7 +57,19 @@ include 'admin_header.php';
     <div class="container">
   <h1>Bikes </h1>
   <div class="gallery">
+  <table border="">
+            <tr>
+              <th>Name</th>
+              <th>Brand</th>
+              <th>Image</th>
+              <th>Color</th>
+              <th>Rate</th>
+              <th>Status</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
     <?php
+    
     $sql = "SELECT * FROM bike";
         $result= mysqli_query($conn,$sql);
         $num = mysqli_num_rows($result);
@@ -85,16 +79,22 @@ include 'admin_header.php';
                 $imageName= $row["b_name"];
                 $rate= $row["b_rate"];
                 ?>
-            <div class="bike">  
-                <img class="bike" src="<?php echo $imageURL;?>" alt="" style="width:100%;height:100%;object-fit:contain;">
-                <p> <?php echo $imageName;?></p>
-                <p>rate: Rs <?php echo $rate; ?>/hour</p>
-                <a href="admin_bike.php?bike_id=<?php echo $row['b_id'] ?>">Edit</a>
-             </div> 
+            <tr>
+                <td><?php echo $row['b_name']; ?></td>
+                <td> <?php echo $row['b_brand']; ?> </td>
+                <td><img class="bike" src="<?php echo $imageURL;?>" alt="" style="width:200px;height:100px;object-fit:cover;">
+                <td> <?php echo $row['b_color']; ?> </td>
+                <td> <?php echo $row['b_rate']; ?> </td>
+                <td> <?php echo $row['b_status']; ?> </td>
+                <td><a href="admin_bike.php?bike_id=<?php echo $row['b_id'] ?>">Edit</a></td>
+                <td><a href="delete.php?bike_id=<?php echo $row['b_id'] ?>">Delete</a></td> 
+    </tr>              
+           
             <?php }
         }
         ?>
-    
+         </table> 
+     
   </div>
 </div>
 

@@ -12,6 +12,7 @@
     .header{
     position: fixed;
      width: 99%;
+     
     }
         .right{
             display: flex;
@@ -40,16 +41,21 @@
 <body>
 <div class="header">
         <i class="fa-brands fa-gratipay"></i>  Online bike rental system
-            <div class="right"><a href="#">Dashboard</a>
+            <div class="right">
+            <a href="customer_dashboard.php">Dashboard</a>
             <a href="#">Account</a>
-            <a href="#">My Booking</a>
-            <div class="btn"><button>Book Now</button></div> 
+            <a href="booking.php">My Booking</a>
+            <div class="btn"><button onclick="book()">Book Now</button></div> 
             <div class="profile-container">
             <img src="../asset/pic/1.png" alt="Profile Picture" class="profile-img" id="profile-img">
-            <div class="logout" id="logout"><a href="logout.php">Logout</a></div>
+            <div class="logout" id="logout"><a href="../auth/logout.php">Logout</a></div>
             </div>
         </div>
 </div>
-
+<script>
+    function book(){
+        window.location.href="book.php";       
+    }
+</script>
 </body>
 </html>

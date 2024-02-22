@@ -41,7 +41,7 @@
     $contact=$_POST['contact'];
     $Picture = $_FILES['lpic']['name'];
     $temp = $_FILES['lpic']['tmp_name'];
-    $folder = "pics/" . $Picture; move_uploaded_file($temp, $folder);
+    $folder = "../admin/pics/" . $Picture; move_uploaded_file($temp, $folder);
     $sql = "insert into customer(c_contact,c_name,c_address,c_email,c_password,license_picture) values('$contact','$fname','$address','$email','$pass','$folder')";
     $result = mysqli_query($conn, $sql); 
     if ($result) {
