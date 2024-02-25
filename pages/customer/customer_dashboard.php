@@ -5,11 +5,8 @@ include 'customer_header.php'
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Customer Dashboard</title>
 <style>
-  /* Basic CSS for layout */
   body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -53,7 +50,7 @@ include 'customer_header.php'
   <div class="dashboard-header">
   <h1>Welcome <?php 
             include 'current_user.php'; 
-            echo $row['c_name'];
+            echo $currentUser;
             ?></h1>
     <p>Your Dashboard</p>
   </div>
@@ -61,10 +58,23 @@ include 'customer_header.php'
   <div class="dashboard-section">
     <h2>My Booking</h2>
     <ul>
-      <li></li>
+      <li>
+        <table>
+        <?php
+        include '../database/dbconnect.php';
+        $sql="SELECT * FROM rent WHERE customer_id = '$uid'";
+        $result=mysqli_query($conn,$sql);
+        $num=mysqli_num_rows($result);
+        if($num>0){
+          while($row=mysqli_fetch_assoc($result)){
+            
+          }
+        }
+        ?>
+        </table>
+      </li>
     </ul>
   </div>
-
   <div class="dashboard-section">
     <h2>Book Now</h2>
     <p>Book your next ride now!</p>

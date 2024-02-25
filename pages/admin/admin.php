@@ -18,12 +18,7 @@ include 'admin_header.php';
         h1{
             text-align: center;
         }
-        body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-  }
+
   .container {
     max-width: 800px;
     margin: 20px auto;

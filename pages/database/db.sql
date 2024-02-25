@@ -27,15 +27,17 @@ CREATE TABLE bike(
     b_rate int not null,
     b_status TINYINT DEFAULT 1 NOT NULL
 );
-
 CREATE TABLE rent(
     r_id int primary key auto_increment,
-    r_pickup_time TIME not null,
+    r_pickup_point varchar(255) not null,
     r_start_date date NOT NULL,
     r_end_date date NOT NULL,
+    r_pickup_time TIME not null,
+    r_drop_off_point varchar(255) not null,
     r_drop_off_time TIME NOT NULL,    
-    r_status TINYINT DEFAULT 0 not null,
+    r_status varchar(255) DEFAULT 'pending' not null,
     c_license_photo varchar(255) not null,
+    is_returned boolean DEFAULT false,
     customer_id int,
     bike_id int,
     foreign key(customer_id) references customer(c_id),

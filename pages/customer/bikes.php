@@ -91,25 +91,14 @@ $imageURL = "../admin/".$row["b_image"];
         $r_drop_off=$_POST['destination_point'];
         $r_drop_off_time=$_POST['drop_time'];
         $Picture = $_FILES['lpic']['name'];
-        $temp = $_FILES['lpic']['tmp_name'];
-        $uid=$row['c_id'];
+        $temp = $_FILES['lpic']['tmp_name']; 
         $folder = "../admin/pics/" . $Picture; move_uploaded_file($temp, $folder);
-        $sql="INSERT INTO rent(r_pickup_point,r_start_time,r_end_date,r_pickup_time,r_drop_off_point,r_drop_off_time,c_license_photo,customer_id,bike_id) values('$r_pickup_point','$r_start_date','$r_end_date','$r_pickup_time','$r_drop_off','$r_drop_off_time','$folder','$uid','$bike_id)";
+        $sql="INSERT INTO rent(r_pickup_point,r_start_date,r_end_date,r_pickup_time,r_drop_off_point,r_drop_off_time,c_license_photo,customer_id,bike_id) values ('$r_pickup_point','$r_start_date','$r_end_date','$r_pickup_time','$r_drop_off','$r_drop_off_time','$folder','$uid','$bike_id')";
         $result=mysqli_query($conn,$sql);
         if($result){
-            echo 'booked';
+          echo "inserted ";
         }
     }
 ?>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-

@@ -26,7 +26,12 @@
   padding: 2px;
   display: none;
 }
-
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
 .profile-container:hover .logout {
     right: 0;
     display: block;
@@ -38,7 +43,7 @@
         <i class="fa-brands fa-gratipay"></i>  Online bike rental system
             <div class="right"><a href="#">Dashboard</a>
             <a href="#">Bike</a>
-            <a href="#">Rentals</a>
+            <a href="rental_request.php">Rentals</a>
           <div class="btn"> <button onclick="newList()">Create new listing</button></div> 
           <div class="profile-container">
             <img src="../asset/pic/1.png" alt="Profile Picture" class="profile-img" id="profile-img">
