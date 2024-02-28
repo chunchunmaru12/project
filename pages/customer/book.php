@@ -6,12 +6,6 @@ include 'customer_header.php';
 <head>
 <title>Bike Gallery</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-  }
   .container {
     max-width: 800px;
     margin: 20px auto;

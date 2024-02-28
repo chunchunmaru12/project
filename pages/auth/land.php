@@ -1,37 +1,15 @@
+<?php include 'header.php'; ?>
 <html lang="en">
 <head>
     <title>Online Bike Rental System</title>
     <style>
-        *{
-            margin: 0;
-            font-family: monospace;
-        }
-        a{
-            text-decoration: none;
-            color: black;
-        
-        }
-        a:hover{
-            background-color: white;
-            padding: 14px;
-        
-        }
-        nav{
-            background-color: rgb(241, 241, 241);
-        }
-        .nav{
-            margin-left:99rem;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px
-        }
         .main{
             display: flex;
             padding: 0px 20px;
         }
         img{
-            width: 50rem;
-            height: 50rem;  
+            width: 45rem;
+            height: 45rem;  
             transform: rotateY(180deg);
         }
         .text{
@@ -43,23 +21,18 @@
     </style>
 </head>
 <body>
-    <nav>
-    <div class="nav">
-        <a href="#">HOME</a>
-        <a href="#">CONTACT</a>
-    </div></nav>
     <div class="main">
         <div class="text">
             <h1>BIKE RENTAL</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam facere nulla quisquam, ratione delectus praesentium adipisci ex dignissimos velit dolore, unde iusto nam corrupti deleniti ab blanditiis exercitationem accusantium assumenda!</p>
             <button class="btn" onclick="go()">GET STARTED</button>
         </div>
-            <img src="asset/pic/33814530.jpg" alt="">
+            <img src="../asset/pic/33814530.jpg" alt="">
         </div>
     </div>
     <script>
         function go(){
-            window.location.href="auth/login&reg.php";
+            window.location.href="reg.php";
         }
     </script>
 </body>

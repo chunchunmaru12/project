@@ -1,3 +1,4 @@
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,7 +27,7 @@ if(isset($_POST['submit'])){
     if($result){
         if(mysqli_num_rows($result) > 0) {
             $_SESSION['email'] = $email;
-            header("Location: ../admin/admin.php");
+            header("Location: ../admin/admin_dashboard.php");
         }
     }
     $ssql = "SELECT * FROM customer WHERE c_email = '$email' AND c_password = '$pass'";

@@ -1,9 +1,26 @@
 <?php
 include 'admin_header.php'; 
 include '../database/dbconnect.php';
-$sql="SELECT * FROM rent ";
+$sql="SELECT 
+rent.r_id,
+rent.r_pickup_point,
+rent.r_start_date,
+rent.r_end_date,
+rent.r_pickup_time,
+rent.r_drop_off_point,
+rent.r_drop_off_time,
+rent.r_status,
+rent.is_returned,
+customer.c_name,
+customer.c_contact,
+customer.c_address,
+customer.c_email,
+bike.b_name,
+bike.b_brand,
+bike.b_color,
+bike.b_rate
+FROM rent JOIN customer ON rent.customer_id = customer.c_id JOIN bike ON rent.bike_id = bike.b_id;";
 $result= mysqli_query($conn,$sql);
-$num=mysqli_num_rows($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,14 +45,14 @@ $num=mysqli_num_rows($result);
 <body>
     <div class="main-content">
         <h1>Rental Requests</h1>
-        <?php if($num>0){
+        <?php
             while($row=mysqli_fetch_assoc($result)){
                 ?>
                 <div class="rental-request">
-                    <p><strong>User Name:</strong> <?php echo $row['r_id']; ?></p>
-                    <p><strong>Car Model:</strong> <?php echo $row['r_pickup_point']; ?></p>
-                    <p><strong>Pickup Date:</strong> <?php echo $row['customer_id']; ?></p>
-                    <p><strong>Return Date:</strong> <?php echo $row['bike_id']; ?></p>
+                    <p><strong>User Name:</strong> <?php echo $row['c_name']; ?></p>
+                    <p><strong>Bike Name:</strong> <?php echo $row['b_name']; ?></p>
+                    <p><strong>Pickup Date:</strong> <?php echo $row['r_start_date']; ?></p>
+                    <p><strong>Return Date:</strong> <?php echo $row['r_end_date']; ?></p>
                     <?php if ($row['r_status'] == 'approved'): ?>
                         <span>Approved</span>
                     <?php elseif ($row['r_status'] == 'rejected'): ?>
@@ -47,7 +64,7 @@ $num=mysqli_num_rows($result);
                 </div>
             <?php
             }
-        } ?>  
+         ?>  
     </div>
 
 </body>
