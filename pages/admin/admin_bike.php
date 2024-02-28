@@ -1,5 +1,6 @@
 <?php
 include 'admin_header.php';
+include '../auth/footer.php';
 include '../database/dbconnect.php';
 if($_GET['bike_id']){
   $bike_id=$_GET['bike_id'];
@@ -84,9 +85,9 @@ if(isset($_POST['submit'])){
   $b_rate = $_POST['b_rate'];
   $sql="UPDATE bike SET b_name = '$b_name', b_brand = '$b_brand', b_color = '$b_color', b_rate = '$b_rate' WHERE b_id = '$bike_id'";
   $result=mysqli_query($conn,$sql);
-  if($result){
-    header('Location: admin.php');
-  }
+  echo "<script>alert('Updated ');</script>";
+  echo "<script>window.location.href = 'admin.php';</script>";
+
 }
 
 ?>
