@@ -3,9 +3,10 @@
 <head>
     <style>
         footer {
-            background-color: rgb(204, 204, 204);;
+            background-color: rgb(204, 204, 204);
             color:rgb(0, 0, 0);
-            padding: 20px 0; 
+            
+            padding: 10px 0; 
             text-align: center; 
             bottom: 0; /* Align to bottom */
             position: fixed; /* Fixed position at the bottom */

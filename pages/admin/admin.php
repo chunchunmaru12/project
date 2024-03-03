@@ -1,6 +1,7 @@
 <?php
 include 'admin_header.php';
 include '../database/dbconnect.php';
+include '../auth/footer.php';
 ?>
 <html lang="en">
 
@@ -10,21 +11,21 @@ include '../database/dbconnect.php';
   <title>Document</title>
 
   <style>
-    section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-    }
+    
 
     h1 {
       text-align: center;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 20px auto;
-      padding: 0 20px;
+      padding:20px;
+      background-color: #fff; 
+      border:5px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 50px; 
     }
 
     table {
@@ -35,14 +36,21 @@ include '../database/dbconnect.php';
     td {
       padding: 20px;
     }
+    .bike{
+      width:200px;
+      height:100px;
+      object-fit:cover;
+       
+    }
+    .gallery{
+      background-color: rgb(240, 240, 240);
+    }
   </style>
 </head>
 
 <body>
-
-  <h1>Bikes </h1>
-  <section>
-    <div class="container">
+    <div class="container"> 
+    <h1>Bikes </h1>
       <div class="gallery">
         <table border="">
           <tr>
@@ -69,7 +77,7 @@ include '../database/dbconnect.php';
               <tr>
                 <td><?php echo $row['b_name']; ?></td>
                 <td> <?php echo $row['b_brand']; ?> </td>
-                <td><img class="bike" src="<?php echo $imageURL; ?>" alt="" style="width:200px;height:100px;object-fit:cover;">
+                <td><img class="bike" src="<?php echo $imageURL; ?>">
                 <td> <?php echo $row['b_color']; ?> </td>
                 <td> <?php echo $row['b_rate']; ?> </td>
                 <td> <?php echo $row['b_status']; ?> </td>
@@ -84,7 +92,7 @@ include '../database/dbconnect.php';
 
       </div>
         </div>
-  </section>
+
 </body>
 
 </html>

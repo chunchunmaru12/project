@@ -10,17 +10,16 @@ include '../auth/footer.php';
     <title>User and Rentals</title>
     <style>
         .container {
-        max-width: 800px;
+        max-width: 900px;
         margin: 20px auto;
         padding: 20px;
-        
         background-color: #fff;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .box {
             width: 300px;
-            border: 1px solid rgb(204, 204, 204);;
+            
             border-radius: 5px;
             padding: 20px;
             margin-bottom: 20px;
@@ -35,12 +34,12 @@ include '../auth/footer.php';
         }
         .users {
             width: auto;
-            background-color: rgb(240, 240, 240);
+            
         }
         .detail{
             margin: auto;
             border-collapse: collapse;
-            background-color: white;
+            background-color: rgb(240, 240, 240);
         }
         
     </style>

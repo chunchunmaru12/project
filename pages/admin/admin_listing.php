@@ -73,7 +73,7 @@ if(isset($_POST['submit'])){
     $temp = $_FILES['b_image']['tmp_name'];
     $folder = "pics/" . $Picture; 
     move_uploaded_file($temp, $folder);
-    $sql="INSERT INTO bike(b_name, b_brand, b_image,b_color,b_rate,b_status) VALUES('$b_name','$b_brand','$folder','$b_color','$b_rate',1)";
+    $sql="INSERT INTO bike(b_name, b_brand, b_image,b_color,b_rate) VALUES('$b_name','$b_brand','$folder','$b_color','$b_rate')";
     $result=mysqli_query($conn,$sql);
     if($result){
         header('Location: admin.php');

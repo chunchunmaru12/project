@@ -40,6 +40,11 @@
             right: 0;
             display: block;
         }
+        .header{
+            position: fixed;
+            width: 1450px;
+            background-color: white;
+        }
     </style>
 </head>
 
@@ -61,6 +66,7 @@
             window.location.href = "admin_listing.php";
         }
     </script>
+    <br>
 </body>
 
 </html>

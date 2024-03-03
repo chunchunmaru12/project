@@ -1,18 +1,14 @@
 <?php
+include 'current_user.php';
 include 'customer_header.php';
-?><br>
+include '../database/dbconnect.php';
+
+?>
 <html lang="en">
 
 <head>
   <title>Document</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f0f0;
-    }
-
     .cont {
       max-width: 800px;
       margin: 20px auto;
@@ -76,8 +72,7 @@ include 'customer_header.php';
       <ul class="booking-list">
         <li class="booking-item pending">
           <?php
-          include '../database/dbconnect.php';
-          include 'current_user.php';
+
           $sql = "SELECT * FROM rent WHERE customer_id ='$uid'";
           $result = mysqli_query($conn, $sql);
           $num = mysqli_num_rows($result);
@@ -130,7 +125,7 @@ include 'customer_header.php';
           <?php
           $sql = "SELECT * FROM rent WHERE customer_id ='$uid'";
           $result = mysqli_query($conn, $sql);
-          $num = mysqli_num_rows($result); 
+          $num = mysqli_num_rows($result);
           if ($num > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
               if ($row['r_status'] == 'rejected') {

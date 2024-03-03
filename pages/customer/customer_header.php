@@ -1,5 +1,4 @@
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background-color: rgb(240, 240, 240);
         }
 
         a {
@@ -20,8 +19,8 @@
 
         .header {
             position: fixed;
-            width: 99%;
-
+            width: 1450px;
+            background-color: white;
         }
 
         .right {
@@ -30,7 +29,7 @@
             gap: 40px;
         }
 
-        img {
+        .profile-img {
             width: 20px;
         }
 
@@ -58,7 +57,7 @@
             <a href="booking.php">My Booking</a>
             <div class="btn"><button onclick="book()">Book Now</button></div>
             <div class="profile-container">
-                <img src="../asset/pic/1.png" alt="Profile Picture" class="profile-img" id="profile-img">
+                <a href="customer_detail.php"><img src="../asset/pic/1.png" alt="Profile Picture" class="profile-img" id="profile-img"></a>
                 <div class="logout" id="logout"><a href="../auth/logout.php">Logout</a></div>
             </div>
         </div>
@@ -68,6 +67,7 @@
             window.location.href = "book.php";
         }
     </script>
+    <br>
 </body>
 
 </html>

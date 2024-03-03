@@ -9,7 +9,7 @@
         }
 
         .header {
-            
+            width: 100%;
             background-color:rgb(204, 204, 204);
             padding: 10px 10px;
             text-align: right;

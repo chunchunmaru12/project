@@ -1,4 +1,5 @@
 <?php
+include 'current_user.php';
 include 'customer_header.php';
 include '../database/dbconnect.php';
 if($_GET['bike_id']){
@@ -53,13 +54,11 @@ $imageURL = "../admin/".$row["b_image"];
 </style>
 </head>
 <body>
-    <br>
 <div class="container">
     <h1><?php
     echo $row['b_name'];
     ?></h1>
     <img src="<?php echo $imageURL?>" alt="" style="width:200px;height:100px;object-fit:cover;">
-    
     <form action="" method="post" enctype="multipart/form-data" >
     <label for="pickup_point">Pickup Point:</label>
     <input type="text" id="pickup_point" name="pickup_point" required>
@@ -82,7 +81,7 @@ $imageURL = "../admin/".$row["b_image"];
   </form>
 </div>
 <?php
-    include 'current_user.php';
+    
     if(isset($_POST['submit'])){
         $r_pickup_point=$_POST['pickup_point'];
         $r_pickup_time=$_POST['pickup_time'];

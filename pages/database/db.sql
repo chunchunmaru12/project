@@ -25,7 +25,7 @@ CREATE TABLE bike(
     b_image varchar(255) not null,
     b_color varchar(255) not null,
     b_rate int not null,
-    b_status TINYINT DEFAULT 1 NOT NULL
+    b_status VARCHAR(50) NOT NULL DEFAULT 'available'
 );
 CREATE TABLE rent(
     r_id int primary key auto_increment,

@@ -1,8 +1,8 @@
 <?php
 include 'customer_header.php';
-include '../database/dbconnect.php';
 include 'current_user.php';
-?><br>
+include 'sidebar.php';  
+?>
 <!DOCTYPE html>
 <html lang="en">
 
