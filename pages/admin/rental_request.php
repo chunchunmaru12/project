@@ -82,7 +82,6 @@ $result= mysqli_query($conn,$sql);
             <?php
             }
          ?>  
-    </div>
-
+    </div><br><br>
 </body>
 </html>

@@ -10,6 +10,16 @@ $result= mysqli_query($conn,$sql);
 $num = mysqli_num_rows($result);
 $row = mysqli_fetch_assoc($result);
 $imageURL = "../admin/".$row["b_image"];
+$ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved' AND is_returned=0";
+$rresult = mysqli_query($conn, $ssql);
+$nnum = mysqli_num_rows($rresult);
+if ($nnum > 0) {
+    
+    echo "<script>alert('Return the bike to rent again');
+          window.location.href = 'booking.php';</script>";
+    
+  
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

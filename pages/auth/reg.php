@@ -1,6 +1,28 @@
 <?php
 include 'header.php';
 include 'footer.php';
+include '../database/dbconnect.php';
+if (isset($_POST['register'])) {
+    $fname = $_POST['fname'];
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $address = $_POST['address'];
+    $contact = $_POST['contact'];
+    $Picture = $_FILES['lpic']['name'];
+    $temp = $_FILES['lpic']['tmp_name'];
+    $folder = "../admin/pics/" . $Picture;
+    move_uploaded_file($temp, $folder);
+    $sql = "insert into customer(c_contact,c_name,c_address,c_email,c_password,license_picture) values('$contact','$fname','$address','$email','$pass','$folder')";
+    $result = mysqli_query($conn, $sql);
+    if ($result) {
+        echo '<script>alert("Registered successfully");
+        window.location.href = "login.php"</script>';
+        
+    } else {
+        echo '<script>alert("Cannot register");</script>';
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,10 +76,7 @@ include 'footer.php';
             background-color: #0056b3;
         }
 
-        button {
-            width: 60px;
-            height: 40px;
-        }
+       
     </style>
 </head>
 
@@ -78,36 +97,10 @@ include 'footer.php';
             <label for="pass">Password</label>
             <input type="password" name="pass" id="pass" required>
             <input type="submit" name="register" value="Register">
-            <label for="login">Already registered user? <button onclick="login()">Login</button></label>
+           
         </form>
     </div>
-    <script>
-        function login() {
-            window.location.href = "login.php";
-        }
-    </script>
-    <?php
-    include '../database/dbconnect.php';
-    if (isset($_POST['register'])) {
-        $fname = $_POST['fname'];
-        $email = $_POST['email'];
-        $pass = $_POST['pass'];
-        $address = $_POST['address'];
-        $contact = $_POST['contact'];
-        $Picture = $_FILES['lpic']['name'];
-        $temp = $_FILES['lpic']['tmp_name'];
-        $folder = "../admin/pics/" . $Picture;
-        move_uploaded_file($temp, $folder);
-        $sql = "insert into customer(c_contact,c_name,c_address,c_email,c_password,license_picture) values('$contact','$fname','$address','$email','$pass','$folder')";
-        $result = mysqli_query($conn, $sql);
-        if ($result) {
-            echo "Registered successfully";
-        } else {
-            echo "cannot register";
-        }
-    }
 
-    ?>
 </body>
 
 </html>

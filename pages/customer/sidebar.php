@@ -10,6 +10,7 @@
             width: 200px;
             height: 100%;
             background-color: #333;
+            padding-top:26px;
             margin-top: 26px;
         }
 
@@ -23,23 +24,26 @@
             padding: 10px;
             color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s;
+            
         }
 
         .sidebar ul li:hover {
             background-color: #555;
         }
-
+        .sd{
+            text-decoration: none;
+            color:white;
+        }
     </style>
 </head>
 <body>
 
 <div class="sidebar">
     <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
-        <li>Services</li>
+        <li><a href="customer_dashboard.php" class="sd">Home</a></li>
+        <li><a href="customer_detail.php" class="sd"></a>Account</li>
+        <li><a href="booking.php" class="sd"></a>Bookings</li>
+        
     </ul>
 </div>
 

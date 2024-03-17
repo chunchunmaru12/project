@@ -5,6 +5,7 @@ include '../database/dbconnect.php';
 $sql = "SELECT * FROM bike";
 $result = mysqli_query($conn, $sql);
 $num = mysqli_num_rows($result);
+
 ?>
 <body>
     <div class="cont">

@@ -47,7 +47,8 @@ CREATE TABLE payment(
     p_id int primary key auto_increment,
     p_status TINYINT DEFAULT 0,
     p_amount int not null,
-    p_type varchar(255) not null
+    c_id int,
+    foreign key(c_id) references rent(r_id);
 );
 
 

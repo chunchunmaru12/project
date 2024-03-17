@@ -2,7 +2,7 @@
 include 'current_user.php';
 include 'customer_header.php';
 include '../database/dbconnect.php';
-
+include 'sidebar.php';
 ?>
 <html lang="en">
 
@@ -111,11 +111,18 @@ include '../database/dbconnect.php';
                 $nnum = mysqli_num_rows($rresult);
                 $rrow = mysqli_fetch_assoc($rresult);
                 echo $rrow['b_name'];
+                echo "<br>";
+                echo "From: ".$row['r_pickup_point'];
+                echo " ".$row['r_pickup_time'];
+                echo "<br>";
+                echo "To: ".$row['r_drop_off_point'];
+                echo " ".$row['r_drop_off_time'];
               }
             }
           }
           ?>
         </li>
+  
       </ul>
     </div>
     <div class="booking-status">
@@ -135,6 +142,8 @@ include '../database/dbconnect.php';
                 $nnum = mysqli_num_rows($rresult);
                 $rrow = mysqli_fetch_assoc($rresult);
                 echo $rrow['b_name'];
+                echo "<br>";
+                
               }
             }
           }

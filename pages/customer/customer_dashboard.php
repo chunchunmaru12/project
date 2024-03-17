@@ -4,7 +4,6 @@
 <?php
 include 'customer_header.php';
 include 'sidebar.php';  
-
 ?>
 <head>
   <title>Customer Dashboard</title>
@@ -66,10 +65,11 @@ include 'sidebar.php';
 
     include 'rental.php';
 
-    include '../auth/footer.php';
     ?>
   </div>
 
 </body>
 
 </html>
+
+

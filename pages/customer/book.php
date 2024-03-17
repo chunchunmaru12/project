@@ -2,6 +2,7 @@
 include 'customer_header.php';
 include '../database/dbconnect.php';
 include 'current_user.php';
+include 'sidebar.php';
 
 // SQL query to fetch bikes
 $sql = "SELECT * FROM bike";

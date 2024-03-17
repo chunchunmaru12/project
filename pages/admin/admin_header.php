@@ -44,6 +44,7 @@
             position: fixed;
             width: 1450px;
             background-color: white;
+            padding: 5px;
         }
     </style>
 </head>
