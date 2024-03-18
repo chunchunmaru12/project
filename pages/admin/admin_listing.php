@@ -76,7 +76,8 @@ if(isset($_POST['submit'])){
     $sql="INSERT INTO bike(b_name, b_brand, b_image,b_color,b_rate) VALUES('$b_name','$b_brand','$folder','$b_color','$b_rate')";
     $result=mysqli_query($conn,$sql);
     if($result){
-        header('Location: admin.php');
+        
+        echo "<script>window.location.href = 'admin.php';</script>";
     }
 }
 ?>

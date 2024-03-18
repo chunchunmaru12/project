@@ -5,7 +5,7 @@ include '../database/dbconnect.php';
 if($_GET['bike_id']){
   $bike_id=$_GET['bike_id'];
 }
-$sql = "SELECT * FROM bike where b_id = '$bike_id' ";
+$sql = "SELECT * FROM bike where b_id = '$bike_id'";
 $result= mysqli_query($conn,$sql);
 $num = mysqli_num_rows($result);
 $row = mysqli_fetch_assoc($result);
@@ -17,8 +17,6 @@ if ($nnum > 0) {
     
     echo "<script>alert('Return the bike to rent again');
           window.location.href = 'booking.php';</script>";
-    
-  
 }
 ?>
 <!DOCTYPE html>
@@ -102,12 +100,26 @@ if ($nnum > 0) {
         $Picture = $_FILES['lpic']['name'];
         $temp = $_FILES['lpic']['tmp_name']; 
         $folder = "../admin/pics/" . $Picture; move_uploaded_file($temp, $folder);
-        $sql="INSERT INTO rent(r_pickup_point,r_start_date,r_end_date,r_pickup_time,r_drop_off_point,r_drop_off_time,c_license_photo,customer_id,bike_id) values ('$r_pickup_point','$r_start_date','$r_end_date','$r_pickup_time','$r_drop_off','$r_drop_off_time','$folder','$uid','$bike_id')";
+        $ssql="UPDATE bike set b_status='pending' where b_id='$bike_id'";
+        $res=mysqli_query($conn,$ssql);
+        $sql="INSERT INTO rent(r_pickup_point,r_start_date,r_end_date,r_pickup_time,r_drop_off_point,r_drop_off_time,c_license_photo,customer_id,bike_id)
+        values ('$r_pickup_point','$r_start_date','$r_end_date','$r_pickup_time','$r_drop_off','$r_drop_off_time','$folder','$uid','$bike_id')";
         $result=mysqli_query($conn,$sql);
         if($result){
-          echo "inserted ";
+          echo "<script>alert('Booked');</script>";
+          echo "<script>window.location.href = 'booking.php';</script>";
         }
     }
 ?>
+<script>
+  // JavaScript code to ensure dates and times cannot be before the current ones
+  var currentDate = new Date();
+  var currentDateString = currentDate.toISOString().slice(0,10); // Format: YYYY-MM-DD
+  var currentTimeString = currentDate.toTimeString().slice(0,5); // Format: HH:MM
+  document.getElementById("start_date").min = currentDateString;
+  document.getElementById("end_date").min = currentDateString;
+  document.getElementById("pickup_time").min = currentTimeString;
+  document.getElementById("drop_time").min = currentTimeString;
+</script>
 </body>
 </html>

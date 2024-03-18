@@ -2,13 +2,13 @@
 <?php
 include '../database/dbconnect.php';
 // SQL query to fetch bikes
-$sql = "SELECT * FROM bike";
+$sql = "SELECT * FROM bike where b_status='available'";
 $result = mysqli_query($conn, $sql);
 $num = mysqli_num_rows($result);
 
 ?>
 <body>
-    <div class="cont">
+<div class="container">
         <h1>Rent a Bike</h1>
         <div class="gallery">
             <?php
@@ -26,6 +26,7 @@ $num = mysqli_num_rows($result);
                                 <p>Rate: Rs <?php echo $rate; ?>/hour</p>
                             </div>
                         </a>
+                        
                     </div>
                     <?php
                 }

@@ -5,13 +5,13 @@ include 'current_user.php';
 include 'sidebar.php';
 
 // SQL query to fetch bikes
-$sql = "SELECT * FROM bike";
+$sql = "SELECT * FROM bike where b_status<>'pending' ";
 $result = mysqli_query($conn, $sql);
 $num = mysqli_num_rows($result);
 
 // Redirect if the user has rented bikes
 //r_status is not rejected and is_returned is false then cannot rent
-$ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved' AND is_returned=0";
+$ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved' AND is_returned=0 ";
 $rresult = mysqli_query($conn, $ssql);
 $nnum = mysqli_num_rows($rresult);
 if ($nnum > 0) {
@@ -53,33 +53,8 @@ if ($nnum > 0) {
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Rent a Bike</h1>
-        <div class="gallery">
-            <?php
-            if ($num > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $imageURL = "../admin/" . $row["b_image"];
-                    $imageName = htmlspecialchars($row["b_name"]);
-                    $rate = $row["b_rate"];
-                    ?>
-                    <div class="bike">
-                        <a href="bikes.php?bike_id=<?php echo $row['b_id']; ?>">
-                            <img class="bikeImg" src="<?php echo $imageURL; ?>" alt="<?php echo $imageName; ?>">
-                            <div class="text">
-                                <p><?php echo $imageName; ?></p>
-                                <p>Rate: Rs <?php echo $rate; ?>/hour</p>
-                            </div>
-                        </a>
-                        
-                    </div>
-                    <?php
-                }
-            } else {
-                echo "No bikes found.";
-            }
-            ?>
-        </div>
-    </div>
+<?php
+include 'rental.php';
+?>
 </body>
 </html>

@@ -41,8 +41,8 @@
 <div class="sidebar">
     <ul>
         <li><a href="customer_dashboard.php" class="sd">Home</a></li>
-        <li><a href="customer_detail.php" class="sd"></a>Account</li>
-        <li><a href="booking.php" class="sd"></a>Bookings</li>
+        <li><a href="customer_detail.php" class="sd">Account</a></li>
+        <li><a href="booking.php" class="sd">Bookings</a></li>
         
     </ul>
 </div>
