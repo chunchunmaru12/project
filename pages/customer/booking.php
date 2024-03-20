@@ -2,6 +2,7 @@
 include 'current_user.php';
 include 'customer_header.php';
 include '../database/dbconnect.php';
+
 include 'sidebar.php';
 ?>
 <html lang="en">

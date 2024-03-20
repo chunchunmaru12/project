@@ -8,4 +8,7 @@ $num = mysqli_num_rows($result);
 $row=mysqli_fetch_assoc($result);
 $currentUser=$row['c_name'];
 $uid = $row['c_id'];
+if(!isset($_SESSION['email'])){
+    header("Location: ../auth/login.php");
+}
 ?>

@@ -8,30 +8,7 @@ include 'sidebar.php';
 <head>
   <title>Customer Dashboard</title>
   <style>
-    .cont {
-      max-width: 800px;
-      margin: 20px auto;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: auto auto;
-      grid-gap: 30px;
-      background-color: #f0f0f0;
-    }
-
-    .bikeImg {
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-      width: 395px;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .text {
-      text-align: center;
-    }
-
+   
     .container {
       max-width: 800px;
       margin: 20px auto;

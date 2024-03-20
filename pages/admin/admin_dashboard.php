@@ -1,6 +1,7 @@
 <?php
+
 include 'admin_header.php';
-include '../auth/footer.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +48,8 @@ include '../auth/footer.php';
 <body>
     <?php 
     include '../database/dbconnect.php';
-   session_start();
+    include 'session.php';
+   include 'sidebar.php';
    $name=$_SESSION['email'];
    $sql = "SELECT a_name FROM admin WHERE a_email = '$name'";
    $result = mysqli_query($conn,$sql);

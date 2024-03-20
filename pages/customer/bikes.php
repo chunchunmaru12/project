@@ -2,6 +2,7 @@
 include 'current_user.php';
 include 'customer_header.php';
 include '../database/dbconnect.php';
+
 if($_GET['bike_id']){
   $bike_id=$_GET['bike_id'];
 }

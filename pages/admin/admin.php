@@ -2,6 +2,8 @@
 include 'admin_header.php';
 include '../database/dbconnect.php';
 include '../auth/footer.php';
+include 'session.php';
+include 'sidebar.php';
 ?>
 <html lang="en">
 
@@ -11,8 +13,6 @@ include '../auth/footer.php';
   <title>Document</title>
 
   <style>
-    
-
     h1 {
       text-align: center;
     }
@@ -30,6 +30,7 @@ include '../auth/footer.php';
 
     table {
       border-collapse: collapse;
+      width: 100%;
     }
 
     tr,

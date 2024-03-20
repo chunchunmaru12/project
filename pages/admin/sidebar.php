@@ -40,9 +40,9 @@
 
 <div class="sidebar">
     <ul>
-        <li><a href="customer_dashboard.php" class="sd">Home</a></li>
-        <li><a href="customer_detail.php" class="sd">Account</a></li>
-        <li><a href="booking.php" class="sd">Bookings</a></li>
+        <li><a href="admin_dashboard.php" class="sd">Home</a></li>
+        <li><a href="admin.php" class="sd">Bike</a></li>
+        <li><a href="rental_request.php" class="sd">Requests</a></li>
         
     </ul>
 </div>

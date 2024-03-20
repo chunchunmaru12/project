@@ -2,6 +2,8 @@
 include 'admin_header.php'; 
 include '../auth/footer.php';
 include '../database/dbconnect.php';
+include 'session.php';
+include 'sidebar.php';
 $sql="SELECT 
 rent.r_id,
 rent.r_pickup_point,

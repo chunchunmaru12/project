@@ -1,6 +1,7 @@
 <?php
 include 'admin_header.php';
 include '../auth/footer.php';
+include 'session.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

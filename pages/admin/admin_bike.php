@@ -2,6 +2,7 @@
 include 'admin_header.php';
 include '../auth/footer.php';
 include '../database/dbconnect.php';
+include 'session.php';
 if($_GET['bike_id']){
   $bike_id=$_GET['bike_id'];
 }

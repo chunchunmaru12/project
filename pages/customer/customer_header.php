@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: rgb(240, 240, 240);
+           
         }
 
         a {
@@ -19,7 +20,7 @@
 
         .header {
             position: fixed;
-            width: 1450px;
+            width: 100vw;
             background-color: white;
         }
 
@@ -57,7 +58,7 @@
             <a href="booking.php">My Booking</a>
             <div class="btn"><button onclick="book()">Book Now</button></div>
             <div class="profile-container">
-                <a href="customer_detail.php"><img src="../asset/pic/1.png" alt="Profile Picture" class="profile-img" id="profile-img"></a>
+                <a href="customer_detail.php"><i class="fa-solid fa-user"></i></a>
                 <div class="logout" id="logout"><a href="../auth/logout.php">Logout</a></div>
             </div>
         </div>

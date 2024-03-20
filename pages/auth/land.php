@@ -8,6 +8,7 @@ include 'footer.php';
         .main{
             display: flex;
             padding: 0px 20px;
+            max-width: 100vw;
         }
         img{
             width: 40rem;

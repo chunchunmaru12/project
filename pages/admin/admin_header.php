@@ -57,7 +57,7 @@
             <a href="rental_request.php">Rentals</a>
             <div class="btn"> <button onclick="newList()">Create new listing</button></div>
             <div class="profile-container">
-                <img src="../asset/pic/1.png" alt="Profile Picture" class="profile-img" id="profile-img">
+            <i class="fa-solid fa-user"></i>
                 <div class="logout" id="logout"><a href="../auth/logout.php">Logout</a></div>
             </div>
         </div>
