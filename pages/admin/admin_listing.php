@@ -60,6 +60,8 @@ include 'session.php';
     <input type="number" id="b_rate" name="b_rate" required>
     <label for="b_image">Bike Image :</label>
     <input type="file" id="b_image" name="b_image" accept="image/*" required>
+    <label for="b_number_plate">Bike Number Plate Photo :</label>
+    <input type="file" id="b_number_plate" name="b_number_plate" accept="image/*" required>
     <input type="submit" name="submit" value="Add Listing">
   </form>
 </div>
@@ -70,11 +72,15 @@ if(isset($_POST['submit'])){
     $b_brand = $_POST['b_brand'];
     $b_color = $_POST['b_color'];
     $b_rate = $_POST['b_rate'];
+    $BPicture = $_FILES['b_number_plate']['name'];
+    $ttemp = $_FILES['b_number_plate']['tmp_name'];
+    $ffolder = "pics/" . $BPicture; 
+    move_uploaded_file($temp, $folder);
     $Picture = $_FILES['b_image']['name'];
     $temp = $_FILES['b_image']['tmp_name'];
     $folder = "pics/" . $Picture; 
     move_uploaded_file($temp, $folder);
-    $sql="INSERT INTO bike(b_name, b_brand, b_image,b_color,b_rate) VALUES('$b_name','$b_brand','$folder','$b_color','$b_rate')";
+    $sql="INSERT INTO bike(b_name, b_brand, b_image,b_number_plate,b_color,b_rate) VALUES('$b_name','$b_brand','$folder','$ffolder','$b_color','$b_rate')";
     $result=mysqli_query($conn,$sql);
     if($result){
         

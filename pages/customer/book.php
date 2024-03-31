@@ -15,7 +15,6 @@ $ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved'
 $rresult = mysqli_query($conn, $ssql);
 $nnum = mysqli_num_rows($rresult);
 if ($nnum > 0) {
-   
     echo "<script>alert('Return the bike to rent again');
           window.location.href = 'booking.php';</script>";
     

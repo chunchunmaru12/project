@@ -42,7 +42,7 @@
         }
         .header{
             position: fixed;
-            width: 1450px;
+            width: 99.5%;
             background-color: white;
             padding: 5px;
         }

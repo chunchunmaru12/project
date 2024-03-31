@@ -2,28 +2,32 @@
 include 'header.php';
 include 'footer.php';
 include '../database/dbconnect.php';
+
 if (isset($_POST['register'])) {
     $fname = $_POST['fname'];
     $email = $_POST['email'];
-    $pass = $_POST['pass'];
+    $hashPasskey = password_hash($_POST['pass'], PASSWORD_BCRYPT);
     $address = $_POST['address'];
     $contact = $_POST['contact'];
     $Picture = $_FILES['lpic']['name'];
     $temp = $_FILES['lpic']['tmp_name'];
     $folder = "../admin/pics/" . $Picture;
     move_uploaded_file($temp, $folder);
-    $sql = "insert into customer(c_contact,c_name,c_address,c_email,c_password,license_picture) values('$contact','$fname','$address','$email','$pass','$folder')";
-    $result = mysqli_query($conn, $sql);
-    if ($result) {
-        echo '<script>alert("Registered successfully");
-        window.location.href = "login.php"</script>';
+    try {
+        // Using prepared statements to prevent SQL injection
+        $stmt = $conn->prepare("INSERT INTO customer(c_contact, c_name, c_address, c_email, c_password, license_picture) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssss", $contact, $fname, $address, $email, $hashPasskey, $folder);
         
-    } else {
-        echo '<script>alert("Cannot register");</script>';
+        if ($stmt->execute()) {
+            echo '<script>alert("Registered successfully"); window.location.href = "login.php"</script>';
+        } 
+        $stmt->close();
+    } catch (Exception $e) {
+        echo '<script>alert("Cannot register: User already exists ");</script>';
     }
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

@@ -50,7 +50,7 @@ include 'admin_header.php';
     include '../database/dbconnect.php';
     include 'session.php';
    include 'sidebar.php';
-   $name=$_SESSION['email'];
+   $name=$_SESSION['admin'];
    $sql = "SELECT a_name FROM admin WHERE a_email = '$name'";
    $result = mysqli_query($conn,$sql);
    $num = mysqli_num_rows($result); 

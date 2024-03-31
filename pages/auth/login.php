@@ -94,28 +94,49 @@ include 'footer.php';
     if (isset($_POST['submit'])) {
         session_start();
         $usertype = $_POST['usertype'];
-        $email = mysqli_real_escape_string($conn, $_POST['mail']);
-        $pass = mysqli_real_escape_string($conn, $_POST['pass']);
-        $sql = "SELECT * FROM admin WHERE a_email = '$email' AND a_password = '$pass'";
-        $result = mysqli_query($conn, $sql);
+        $email = $_POST['mail'];
+        $pass = $_POST['pass'];
         if ($usertype == 1) {
-            if ($result) {
-                if (mysqli_num_rows($result) > 0) {
-                    $_SESSION['email'] = $email;
-                    header("Location: ../admin/admin_dashboard.php");
-                    exit();
+            $sql = "SELECT * FROM admin WHERE a_email = ?";
+            $stmt = mysqli_stmt_init($conn);
+            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                echo "SQL statement failed!";
+            } else {
+                mysqli_stmt_bind_param($stmt, "s", $email);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $passwordHash = $row['a_password'];
+                    if (password_verify($pass, $passwordHash)){
+                        $_SESSION['admin'] = $email;
+                        header("Location: ../admin/admin_dashboard.php");
+                        exit();
+                    } else {
+                        echo "<script>alert('Invalid Password')</script>";
+                    }
                 } else {
                     echo "<script>alert('Invalid Credentials')</script>";
                 }
             }
         } else if ($usertype == 2) {
-            $ssql = "SELECT * FROM customer WHERE c_email = '$email' AND c_password = '$pass'";
-            $rresult = mysqli_query($conn, $ssql);
-            if ($rresult) {
-                if (mysqli_num_rows($rresult) > 0) {
-                    $_SESSION['email'] = $email;
-                    header("Location: ../customer/customer_dashboard.php");
-                    exit();
+            $sql = "SELECT * FROM customer WHERE c_email = ?";
+            $stmt = mysqli_stmt_init($conn);
+            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                echo "SQL statement failed!";
+            } else {
+                mysqli_stmt_bind_param($stmt, "s", $email);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $passwordHash = $row['c_password'];
+                    if (password_verify($pass, $passwordHash)) {
+                        $_SESSION['user'] = $email;
+                        header("Location: ../customer/customer_dashboard.php");
+                        exit();
+                    } else {
+                        echo "<script>alert('Invalid Password')</script>";
+                    }
                 } else {
                     echo "<script>alert('Invalid Credentials')</script>";
                 }

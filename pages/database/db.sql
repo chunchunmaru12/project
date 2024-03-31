@@ -2,11 +2,12 @@ use OBRS;
 
 CREATE TABLE customer(
     c_id int primary key auto_increment,
-    c_contact bigint not null,
+    c_contact bigint unique not null ,
     c_name varchar(255) not null,
     c_address varchar(255) not null,
     c_email varchar(255) unique not null ,
     c_password varchar(255) not null,
+    license_picture varchar(255) not null
 );
 
 CREATE TABLE admin(
@@ -23,6 +24,7 @@ CREATE TABLE bike(
     b_name varchar(255) not null,
     b_brand varchar(255) not null,
     b_image varchar(255) not null,
+    b_number_plate varchar(255) not null,
     b_color varchar(255) not null,
     b_rate int not null,
     b_status VARCHAR(50) NOT NULL DEFAULT 'available'

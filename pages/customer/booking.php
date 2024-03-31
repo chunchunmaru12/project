@@ -87,6 +87,7 @@ include 'sidebar.php';
                 $nnum = mysqli_num_rows($rresult);
                 $rrow = mysqli_fetch_assoc($rresult);
                 echo $rrow['b_name'];
+                
               }
             }
           }
@@ -96,7 +97,7 @@ include 'sidebar.php';
     </div>
 
     <div class="booking-status">
-      <h2>Completed Bookings</h2>
+      <h2>Active Bookings</h2>
       <ul class="booking-list">
         <li class="booking-item completed">
           <?php
@@ -114,10 +115,16 @@ include 'sidebar.php';
                 echo $rrow['b_name'];
                 echo "<br>";
                 echo "From: ".$row['r_pickup_point'];
+                echo " ".$row['r_start_date'];
                 echo " ".$row['r_pickup_time'];
                 echo "<br>";
                 echo "To: ".$row['r_drop_off_point'];
                 echo " ".$row['r_drop_off_time'];
+                echo " ".$row['r_end_date'];
+                echo "<br>";  
+                echo "Total rent: Rs ".$row['total_amount']; 
+                echo "<br>";
+                
               }
             }
           }
@@ -144,7 +151,6 @@ include 'sidebar.php';
                 $rrow = mysqli_fetch_assoc($rresult);
                 echo $rrow['b_name'];
                 echo "<br>";
-                
               }
             }
           }
