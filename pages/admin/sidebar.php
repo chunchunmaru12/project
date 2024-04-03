@@ -7,11 +7,11 @@
             position: fixed;
             left: 0;
             top: 0;
-            width: 200px;
+            width: 150px;
             height: 100%;
             background-color: #333;
             padding-top:26px;
-            margin-top: 26px;
+            margin-top: 30px;
         }
 
         .sidebar ul {
@@ -40,9 +40,9 @@
 
 <div class="sidebar">
     <ul>
-        <li><a href="admin_dashboard.php" class="sd">Home</a></li>
-        <li><a href="admin.php" class="sd">Bike</a></li>
-        <li><a href="rental_request.php" class="sd">Requests</a></li>
+        <a href="admin_dashboard.php" class="sd"><li>Home</li></a>
+        <a href="admin.php" class="sd"><li>Bike</li></a>
+        <a href="rental_request.php" class="sd"><li>Requests</li></a>
         
     </ul>
 </div>

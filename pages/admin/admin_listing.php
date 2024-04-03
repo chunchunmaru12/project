@@ -75,7 +75,7 @@ if(isset($_POST['submit'])){
     $BPicture = $_FILES['b_number_plate']['name'];
     $ttemp = $_FILES['b_number_plate']['tmp_name'];
     $ffolder = "pics/" . $BPicture; 
-    move_uploaded_file($temp, $folder);
+    move_uploaded_file($ttemp, $ffolder);
     $Picture = $_FILES['b_image']['name'];
     $temp = $_FILES['b_image']['tmp_name'];
     $folder = "pics/" . $Picture; 
@@ -84,7 +84,9 @@ if(isset($_POST['submit'])){
     $result=mysqli_query($conn,$sql);
     if($result){
         
-        echo "<script>window.location.href = 'admin.php';</script>";
+        echo "<script>
+        alert('new bike added successfully');
+        window.location.href = 'admin.php';</script>";
     }
 }
 ?>

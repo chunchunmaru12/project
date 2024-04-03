@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
     <script src="https://kit.fontawesome.com/0f0259d364.js" crossorigin="anonymous"></script>
     <style>
         body {
@@ -38,7 +38,9 @@
 
         .profile-container:hover .logout {
             right: 0;
+            top:25;
             display: block;
+            background-color: white;
         }
         .header{
             position: fixed;

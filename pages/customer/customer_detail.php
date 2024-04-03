@@ -1,8 +1,13 @@
 <?php
 include 'customer_header.php';
 include 'current_user.php';
-include 'sidebar.php';  
+include 'sidebar.php';
+
+$sql = "SELECT * FROM customer WHERE c_id='$uid'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +27,42 @@ include 'sidebar.php';
         }
 
         table {
+            width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        img {
+            width: 200px;
+            height: 100px;
+            object-fit: cover;
+            margin-top: 15px;
+        }
+
+        .edit-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -30,18 +70,33 @@ include 'sidebar.php';
 <body>
     <div class="user">
         <h1>User Details</h1>
-        <table border=""></table>
-        <?php
-        $sql = "SELECT * FROM customer WHERE c_id='$uid'";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_assoc($result);
-        ?>
-        <p>User Name: <?php echo $row['c_name'] ?> </p>
-        <p>Contact Detail: <?php echo $row['c_contact'] ?></p>
-        <p>Address: <?php echo $row['c_address'] ?></p>
-        <p>Email:<?php echo $row['c_email'] ?></p>
-        <p>License Photo: </p><img src="<?php echo $row['license_picture']; ?>" style='width:200px;height:100px;object-fit:cover;'>
-        <tr></tr>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Information</th>
+            </tr>
+            <tr>
+                <td>User Name</td>
+                <td><?php echo $row['c_name']; ?></td>
+            </tr>
+            <tr>
+                <td>Contact Detail</td>
+                <td><?php echo $row['c_contact']; ?></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><?php echo $row['c_address']; ?></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><?php echo $row['c_email']; ?></td>
+            </tr>
+            <tr>
+                <td>License Photo</td>
+                <td><img src="<?php echo $row['license_picture']; ?>" alt="License Photo"></td>
+            </tr>
+        </table>
+        <button class="edit-btn" onclick="window.location.href='edit_user.php?uid=<?php echo $uid; ?>'">Edit Information</button>
     </div>
 </body>
 

@@ -11,6 +11,7 @@ $result= mysqli_query($conn,$sql);
 $num = mysqli_num_rows($result);
 $row = mysqli_fetch_assoc($result);
 $imageURL = "../admin/".$row["b_image"];
+$bikeURL = "../admin/".$row["b_number_plate"];
 $ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved' AND is_returned=0";
 $rresult = mysqli_query($conn, $ssql);
 $nnum = mysqli_num_rows($rresult);
@@ -68,7 +69,8 @@ if ($nnum > 0) {
     echo $row['b_name'];
     ?></h1>
     <img src="<?php echo $imageURL?>" alt="" style="width:200px;height:100px;object-fit:cover;">
-    <form action="" method="post" enctype="multipart/form-data" >
+    <img src="<?php echo $bikeURL?>" alt="" style="width:200px;height:100px;object-fit:cover;">
+    <form method="post" enctype="multipart/form-data" >
     <label for="pickup_point">Pickup Point:</label>
     <input type="text" id="pickup_point" name="pickup_point" required>
     <label for="start_date">Start Date:</label>
@@ -77,8 +79,6 @@ if ($nnum > 0) {
     <input type="date" id="end_date" name="end_date" required>
     <label for="pickup_time">Pickup Time:</label>
     <input type="time" id="pickup_time" name="pickup_time" required>
-    <label for="destination_point">DropOff Point:</label>
-    <input type="text" id="destination_point" name="destination_point" required>
     <label for="drop_time">Drop Time:</label>
     <input type="time" id="drop_time" name="drop_time" required>
     <label for="lpic">License Picture</label>
@@ -109,13 +109,14 @@ if ($nnum > 0) {
         $ratePerHour = $row['b_rate']; // Assuming b_rate contains the rate per hour
         $ratePerMinute = $ratePerHour / 60; // Rate per minute
         $totalAmount = $totalMinutes * $ratePerMinute;
-        $ssql="UPDATE bike set b_status='pending' where b_id='$bike_id'";
-        $res=mysqli_query($conn,$ssql);
+        
         $sql="INSERT INTO rent(r_pickup_point,r_start_date,r_end_date,r_pickup_time,r_drop_off_point,r_drop_off_time,c_license_photo,customer_id,bike_id,total_amount)
         values ('$r_pickup_point','$r_start_date','$r_end_date','$r_pickup_time','$r_drop_off','$r_drop_off_time','$folder','$uid','$bike_id','$totalAmount')";
         $result=mysqli_query($conn,$sql);
         
         if($result){
+          $ssql="UPDATE bike set b_status='pending' where b_id='$bike_id'";
+          $res=mysqli_query($conn,$ssql);
           echo "<script>alert('Booking Successful');</script>";
           echo "<script>window.location.href = 'booking.php';</script>";
         }
@@ -144,11 +145,14 @@ if ($nnum > 0) {
         var startDateTime = new Date(startDate.value + ' ' + pickupTime.value);
         var endDateTime = new Date(endDate.value + ' ' + dropTime.value);
         var duration = (endDateTime - startDateTime) / (1000 * 60); // Duration in minutes
-        
         var ratePerHour = <?php echo $row['b_rate']; ?>; // Rate per hour from PHP
+        if(duration > 600){ 
+          // if rate is greater than 10 hrs then rate is decreased by 30%
+          ratePerHour = ratePerHour*0.7;
+        }
         var ratePerMinute = ratePerHour / 60; // Rate per minute
-        var totalAmount = duration * ratePerMinute;
-
+      
+          var totalAmount = duration * ratePerMinute;
         document.getElementById("totalCost").textContent = "Total Cost: RS" + totalAmount.toFixed(2);
     }
 
