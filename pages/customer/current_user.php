@@ -2,7 +2,7 @@
 include '../database/dbconnect.php';
 session_start();
 $user=$_SESSION['user'];
-if(isset($_SESSION['user'])!=$user){
+if(!isset($_SESSION['user'])){
     header("Location: ../auth/login.php");
 }
 $sql = "SELECT * FROM customer WHERE c_email = '$user'";

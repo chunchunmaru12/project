@@ -28,7 +28,9 @@ $num = mysqli_num_rows($result);
       object-fit: cover;
     }
 
-    
+    .text-p{
+            text-align: center;
+        }
 
     
 

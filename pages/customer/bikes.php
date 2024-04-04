@@ -1,26 +1,87 @@
+
+
 <?php
 include 'current_user.php';
 include 'customer_header.php';
 include '../database/dbconnect.php';
 
-if($_GET['bike_id']){
-  $bike_id=$_GET['bike_id'];
-}
-$sql = "SELECT * FROM bike where b_id = '$bike_id'";
-$result= mysqli_query($conn,$sql);
-$num = mysqli_num_rows($result);
-$row = mysqli_fetch_assoc($result);
-$imageURL = "../admin/".$row["b_image"];
-$bikeURL = "../admin/".$row["b_number_plate"];
-$ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved' AND is_returned=0";
-$rresult = mysqli_query($conn, $ssql);
-$nnum = mysqli_num_rows($rresult);
-if ($nnum > 0) {
+$errors = [];
+
+if(isset($_GET['bike_id'])){
+    $bike_id = $_GET['bike_id'];
+    $stmt = $conn->prepare("SELECT * FROM bike WHERE b_id = ?");
+    $stmt->bind_param("i", $bike_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
     
-    echo "<script>alert('Return the bike to rent again');
-          window.location.href = 'booking.php';</script>";
+    if(!$row) {
+        $errors[] = "Invalid bike ID";
+    }
+    $imageURL = "../admin/".$row["b_image"];
+    $bikeURL = "../admin/".$row["b_number_plate"];
+}
+$ssql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'pending'";
+$stmt = $conn->prepare($ssql);
+$stmt->bind_param("i", $uid);
+$stmt->execute();
+$rresult = $stmt->get_result();
+$nnum = $rresult->num_rows;
+
+if ($nnum > 0) {
+    $errors[] = "Wait for your current request to be approved ";
+}
+$srsql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'approved'";
+$sstmt = $conn->prepare($srsql);
+$sstmt->bind_param("i", $uid);
+$sstmt->execute();
+$rrresult = $sstmt->get_result();
+$nnnum = $rrresult->num_rows;
+
+if ($nnnum > 0) {
+    $errors[] = "Return the bike to rent again ";
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $r_pickup_point = $_POST['pickup_point'];
+    $r_pickup_time = $_POST['pickup_time'];
+    $r_start_date = $_POST['start_date'];
+    $r_end_date = $_POST['end_date'];
+    $r_drop_off_time = $_POST['drop_time'];
+    $Picture = $_FILES['lpic']['name'];
+    $temp = $_FILES['lpic']['tmp_name']; 
+    $folder = "../admin/pics/" . $Picture; 
+    move_uploaded_file($temp, $folder);
+    
+    if(empty($r_pickup_point) || empty($r_start_date) || empty($r_end_date) || empty($r_pickup_time) || empty($r_drop_off_time) || empty($Picture)){
+        $errors[] = "All fields are required";
+    }
+
+    if(count($errors) == 0){
+        $startDateTime = new DateTime($r_start_date . ' ' . $r_pickup_time);
+        $endDateTime = new DateTime($r_end_date . ' ' . $r_drop_off_time);
+        $duration = $startDateTime->diff($endDateTime);
+        $totalMinutes = $duration->days * 24 * 60 + $duration->h * 60 + $duration->i; 
+        $ratePerHour = $row['b_rate']; 
+        $ratePerMinute = $ratePerHour / 60; 
+        $totalAmount = $totalMinutes * $ratePerMinute;
+
+        $stmt = $conn->prepare("INSERT INTO rent(r_pickup_point,r_start_date,r_end_date,r_pickup_time,r_drop_off_time,c_license_photo,customer_id,bike_id,total_amount) VALUES (?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("ssssssiid", $r_pickup_point, $r_start_date, $r_end_date, $r_pickup_time, $r_drop_off_time, $folder, $uid, $bike_id, $totalAmount);
+        
+        if($stmt->execute()){
+            $ssql = "UPDATE bike SET b_status='pending' WHERE b_id=?";
+            $stmt = $conn->prepare($ssql);
+            $stmt->bind_param("i", $bike_id);
+            $stmt->execute();
+            echo "<script>alert('Booking Successful');</script>";
+            echo "<script>window.location.href = 'booking.php';</script>";
+        } else {
+            $errors[] = "Error: " . $stmt->error;
+        }
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +89,8 @@ if ($nnum > 0) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bike Gallery</title>
 <style>
+    /* CSS Styles */
+    
     .container {
     max-width: 600px;
     margin: 20px auto;
@@ -65,13 +128,24 @@ if ($nnum > 0) {
 </head>
 <body>
 <div class="container">
-    <h1><?php
-    echo $row['b_name'];
-    ?></h1>
-    <img src="<?php echo $imageURL?>" alt="" style="width:200px;height:100px;object-fit:cover;">
-    <img src="<?php echo $bikeURL?>" alt="" style="width:200px;height:100px;object-fit:cover;">
-    <form method="post" enctype="multipart/form-data" >
-    <label for="pickup_point">Pickup Point:</label>
+    <!-- Display Errors -->
+    <?php if(!empty($errors)): ?>
+        <div class="errors">
+            <?php foreach($errors as $error): ?>
+                <p style="color:red;"><?php echo $error; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- Display Bike Information -->
+    <h1><?php echo $row['b_name']; ?></h1>
+    <img src="<?php echo $imageURL; ?>" alt="" style="width:200px;height:100px;object-fit:cover;">
+    <img src="<?php echo $bikeURL; ?>" alt="" style="width:200px;height:100px;object-fit:cover;">
+
+    <!-- Booking Form -->
+    <form method="post" enctype="multipart/form-data">
+        <!-- Form Fields -->
+        <label for="pickup_point">Pickup Point:</label>
     <input type="text" id="pickup_point" name="pickup_point" required>
     <label for="start_date">Start Date:</label>
     <input type="date" id="start_date" name="start_date" required>
@@ -85,45 +159,17 @@ if ($nnum > 0) {
     <input type="file" name="lpic" id="lpic" accept="image/*" required>
     <label for="rate">Rate:</label>
     <input type="number" id="rate" name="rate"  value="<?php echo $row['b_rate']; ?>" disabled >
-    <input type="submit" name="submit" value="Book Now">
-     <!-- Span to display total cost -->
-     <span id="totalCost">Total Cost: RS: 0.00</span>
-  </form>
+        <!-- ... -->
+
+        <input type="submit" name="submit" value="Book Now">
+        <!-- Span to display total cost -->
+        <span id="totalCost">Total Cost: RS: 0.00</span>
+    </form>
 </div>
-<?php
-    
-    if(isset($_POST['submit'])){
-        $r_pickup_point=$_POST['pickup_point'];
-        $r_pickup_time=$_POST['pickup_time'];
-        $r_start_date=$_POST['start_date'];
-        $r_end_date=$_POST['end_date'];
-        $r_drop_off=$_POST['destination_point'];
-        $r_drop_off_time=$_POST['drop_time'];
-        $Picture = $_FILES['lpic']['name'];
-        $temp = $_FILES['lpic']['tmp_name']; 
-        $folder = "../admin/pics/" . $Picture; move_uploaded_file($temp, $folder);
-        $startDateTime = new DateTime($r_start_date . ' ' . $r_pickup_time);
-        $endDateTime = new DateTime($r_end_date . ' ' . $r_drop_off_time);
-        $duration = $startDateTime->diff($endDateTime);
-        $totalMinutes = $duration->days * 24 * 60 + $duration->h * 60 + $duration->i; // Total minutes
-        $ratePerHour = $row['b_rate']; // Assuming b_rate contains the rate per hour
-        $ratePerMinute = $ratePerHour / 60; // Rate per minute
-        $totalAmount = $totalMinutes * $ratePerMinute;
-        
-        $sql="INSERT INTO rent(r_pickup_point,r_start_date,r_end_date,r_pickup_time,r_drop_off_point,r_drop_off_time,c_license_photo,customer_id,bike_id,total_amount)
-        values ('$r_pickup_point','$r_start_date','$r_end_date','$r_pickup_time','$r_drop_off','$r_drop_off_time','$folder','$uid','$bike_id','$totalAmount')";
-        $result=mysqli_query($conn,$sql);
-        
-        if($result){
-          $ssql="UPDATE bike set b_status='pending' where b_id='$bike_id'";
-          $res=mysqli_query($conn,$ssql);
-          echo "<script>alert('Booking Successful');</script>";
-          echo "<script>window.location.href = 'booking.php';</script>";
-        }
-    }
-?>
+
+<!-- JavaScript -->
 <script>
-  var currentDate = new Date();
+    var currentDate = new Date();
     var currentDateString = currentDate.toISOString().slice(0,10); // Format: YYYY-MM-DD
     var currentTimeString = currentDate.toTimeString().slice(0,5); // Format: HH:MM
     var startDate = document.getElementById("start_date");
@@ -156,7 +202,6 @@ if ($nnum > 0) {
         document.getElementById("totalCost").textContent = "Total Cost: RS" + totalAmount.toFixed(2);
     }
 
-    
 </script>
 </body>
 </html>

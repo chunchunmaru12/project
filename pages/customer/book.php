@@ -11,7 +11,7 @@ $num = mysqli_num_rows($result);
 
 // Redirect if the user has rented bikes
 //r_status is not rejected and is_returned is false then cannot rent
-$ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved' AND is_returned=0 ";
+$ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved' ";
 $rresult = mysqli_query($conn, $ssql);
 $nnum = mysqli_num_rows($rresult);
 if ($nnum > 0) {
@@ -46,9 +46,7 @@ if ($nnum > 0) {
             height: 100px;
             object-fit: cover;
         }
-        .text {
-            text-align: center;
-        }
+        
     </style>
 </head>
 <body>

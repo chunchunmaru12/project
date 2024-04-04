@@ -12,7 +12,23 @@ $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 $adminName = $row['a_name'];
 
-$userSql = "SELECT * FROM customer";
+$userSql="
+SELECT 
+customer.c_id,
+customer.c_name,
+customer.c_email,
+customer.c_address,
+customer.c_contact,
+customer.license_picture,
+rent.r_status,
+rent.bike_id
+from customer 
+left join rent on customer.c_id = rent.customer_id
+
+;
+
+";
+
 $userResult = mysqli_query($conn, $userSql);
 ?>
 
@@ -88,6 +104,7 @@ $userResult = mysqli_query($conn, $userSql);
                         <th>Address</th>
                         <th>Email</th>
                         <th>License Photo</th>
+                        <th>Current Rentals</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,12 +117,26 @@ $userResult = mysqli_query($conn, $userSql);
                                 <td><?php echo $row['c_contact']; ?></td>
                                 <td><?php echo $row['c_address']; ?></td>
                                 <td><?php echo $row['c_email']; ?></td>
-                                <td><img src="<?php echo $row['license_picture']; ?>" alt=""></td>
+                                <td><img src="<?php echo $row['license_picture']; ?>"></td>
+                                <td>
+                                    <?php
+                                    if($row['bike_id']){
+                                        $bid= $row['bike_id'];
+                                        $bike="SELECT b_name from bike where b_id='$bid'";
+                                        $res=mysqli_query($conn,$bike);
+                                        $rrow=mysqli_fetch_assoc($res);
+                                        echo $rrow['b_name'];  
+                                    }else{
+                                        echo 'no bookings';
+                                    }
+                                    ?>
+                                </td>
+                               
                             </tr>
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='5'>No users found</td></tr>";
+                        echo "<tr><td colspan='6'>No users found</td></tr>";
                     }
                     ?>
                 </tbody>

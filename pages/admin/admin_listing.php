@@ -2,6 +2,43 @@
 include 'admin_header.php';
 include '../auth/footer.php';
 include 'session.php';
+include '../database/dbconnect.php';
+
+$errors = [];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $b_name = $_POST['b_name'];
+    $b_brand = $_POST['b_brand'];
+    $b_color = $_POST['b_color'];
+    $b_rate = $_POST['b_rate'];
+
+    if(empty($b_name) || empty($b_brand) || empty($b_color) || empty($b_rate)) {
+        $errors[] = "All fields are required";
+    }
+
+    $BPicture = $_FILES['b_number_plate']['name'];
+    $ttemp = $_FILES['b_number_plate']['tmp_name'];
+    $ffolder = "pics/" . $BPicture;
+    move_uploaded_file($ttemp, $ffolder);
+
+    $Picture = $_FILES['b_image']['name'];
+    $temp = $_FILES['b_image']['tmp_name'];
+    $folder = "pics/" . $Picture;
+    move_uploaded_file($temp, $folder);
+
+    if(count($errors) == 0) {
+        $stmt = $conn->prepare("INSERT INTO bike(b_name, b_brand, b_image, b_number_plate, b_color, b_rate) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssi", $b_name, $b_brand, $folder, $ffolder, $b_color, $b_rate);
+
+        if($stmt->execute()){
+            echo "<script>
+            alert('New bike added successfully');
+            window.location.href = 'admin.php';</script>";
+        } else {
+            $errors[] = "Error: " . $stmt->error;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,50 +83,32 @@ include 'session.php';
 </style>
 </head>
 <body>
-
 <div class="container">
-  <h1>Add New Bike</h1>
-  <form method="post" enctype="multipart/form-data">
-    <label for="b_name">Bike Name:</label>
-    <input type="text" id="b_name" name="b_name" required>
-    <label for="b_brand">Bike Brand:</label>
-    <input type="text" id="b_brand" name="b_brand" required>
-    <label for="b_color">Bike Color:</label>
-    <input type="text" id="b_color" name="b_color" required>
-    <label for="b_rate">Bike Rate:</label>
-    <input type="number" id="b_rate" name="b_rate" required>
-    <label for="b_image">Bike Image :</label>
-    <input type="file" id="b_image" name="b_image" accept="image/*" required>
-    <label for="b_number_plate">Bike Number Plate Photo :</label>
-    <input type="file" id="b_number_plate" name="b_number_plate" accept="image/*" required>
-    <input type="submit" name="submit" value="Add Listing">
-  </form>
+    <?php if(!empty($errors)): ?>
+        <div class="errors">
+            <?php foreach($errors as $error): ?>
+                <p style="color:red;"><?php echo $error; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <h1>Add New Bike</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label for="b_name">Bike Name:</label>
+        <input type="text" id="b_name" name="b_name" required>
+        <label for="b_brand">Bike Brand:</label>
+        <input type="text" id="b_brand" name="b_brand" required>
+        <label for="b_color">Bike Color:</label>
+        <input type="text" id="b_color" name="b_color" required>
+        <label for="b_rate">Bike Rate:</label>
+        <input type="number" id="b_rate" name="b_rate" required>
+        <label for="b_image">Bike Image :</label>
+        <input type="file" id="b_image" name="b_image" accept="image/*" required>
+        <label for="b_number_plate">Bike Number Plate Photo :</label>
+        <input type="file" id="b_number_plate" name="b_number_plate" accept="image/*" required>
+        <input type="submit" name="submit" value="Add Listing">
+    </form>
 </div>
-<?php
-include '../database/dbconnect.php';
-if(isset($_POST['submit'])){
-    $b_name = $_POST['b_name'];
-    $b_brand = $_POST['b_brand'];
-    $b_color = $_POST['b_color'];
-    $b_rate = $_POST['b_rate'];
-    $BPicture = $_FILES['b_number_plate']['name'];
-    $ttemp = $_FILES['b_number_plate']['tmp_name'];
-    $ffolder = "pics/" . $BPicture; 
-    move_uploaded_file($ttemp, $ffolder);
-    $Picture = $_FILES['b_image']['name'];
-    $temp = $_FILES['b_image']['tmp_name'];
-    $folder = "pics/" . $Picture; 
-    move_uploaded_file($temp, $folder);
-    $sql="INSERT INTO bike(b_name, b_brand, b_image,b_number_plate,b_color,b_rate) VALUES('$b_name','$b_brand','$folder','$ffolder','$b_color','$b_rate')";
-    $result=mysqli_query($conn,$sql);
-    if($result){
-        
-        echo "<script>
-        alert('new bike added successfully');
-        window.location.href = 'admin.php';</script>";
-    }
-}
-?>
 
 </body>
 </html>

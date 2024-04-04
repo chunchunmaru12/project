@@ -8,7 +8,6 @@ if (isset($_POST['submit'])) {
     $contact = $_POST['c_contact'];
     $address = $_POST['c_address'];
     $email = $_POST['c_email'];
-    // Update user details in the database
     $updateSql = "UPDATE customer SET c_name='$name', c_contact='$contact', c_address='$address', c_email='$email' WHERE c_id='$uid'";
     if (mysqli_query($conn, $updateSql)) {
         echo '<script>

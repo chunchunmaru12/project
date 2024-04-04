@@ -53,7 +53,7 @@ $row = mysqli_fetch_assoc($result);
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #007BFF;
+            background-color: rgb(76, 175, 80);
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -62,7 +62,7 @@ $row = mysqli_fetch_assoc($result);
         }
 
         .edit-btn:hover {
-            background-color: #0056b3;
+            background-color: rgb(69, 160, 73);
         }
     </style>
 </head>

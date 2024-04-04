@@ -97,8 +97,8 @@ $result = mysqli_query($conn, $sql);
                             <td><?php echo $row['b_color']; ?></td>
                             <td><?php echo $row['b_rate']; ?></td>
                             <td><?php echo $row['b_status']; ?></td>
-                            <td><a href="admin_bike.php?bike_id=<?php echo $row['b_id']; ?>">Edit</a></td>
-                            <td><a href="delete.php?bike_id=<?php echo $row['b_id']; ?>">Delete</a></td>
+                            <td><a href="admin_bike.php?bike_id=<?php echo $row['b_id']; ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                            <td><a href="delete.php?bike_id=<?php echo $row['b_id']; ?>"><i class="fa-solid fa-trash"></i></a></td>
                         </tr>
                 <?php
                     }
