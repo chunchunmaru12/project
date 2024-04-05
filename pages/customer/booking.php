@@ -9,7 +9,6 @@ $sql = "SELECT r.*, b.b_name
         LEFT JOIN bike b ON r.bike_id = b.b_id
         WHERE r.customer_id ='$uid'";
 $result = mysqli_query($conn, $sql);
-
 $pendingBookings = [];
 $activeBookings = [];
 $cancelledBookings = [];
@@ -131,8 +130,7 @@ if (mysqli_num_rows($result) > 0) {
       }
         
         ?>
-        
-        
+              
         </li>
       </ul>
     </div>

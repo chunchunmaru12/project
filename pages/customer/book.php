@@ -4,21 +4,24 @@ include '../database/dbconnect.php';
 include 'current_user.php';
 include 'sidebar.php';
 
-// SQL query to fetch bikes
-$sql = "SELECT * FROM bike where b_status<>'pending' ";
-$result = mysqli_query($conn, $sql);
-$num = mysqli_num_rows($result);
+// SQL query to fetch bikes using prepared statements
+$sql = "SELECT * FROM bike WHERE b_status <> 'pending'";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+$num = $result->num_rows;
 
 // Redirect if the user has rented bikes
-//r_status is not rejected and is_returned is false then cannot rent
-$ssql = "SELECT * FROM rent WHERE customer_id = '$uid' AND r_status = 'approved' ";
-$rresult = mysqli_query($conn, $ssql);
-$nnum = mysqli_num_rows($rresult);
+$ssql = "SELECT * FROM rent WHERE customer_id = ? AND r_status = 'approved'";
+$stmt = $conn->prepare($ssql);
+$stmt->bind_param("i", $uid);
+$stmt->execute();
+$rresult = $stmt->get_result();
+$nnum = $rresult->num_rows;
+
 if ($nnum > 0) {
     echo "<script>alert('Return the bike to rent again');
           window.location.href = 'booking.php';</script>";
-    
-  
 }
 ?>
 
@@ -46,7 +49,6 @@ if ($nnum > 0) {
             height: 100px;
             object-fit: cover;
         }
-        
     </style>
 </head>
 <body>

@@ -1,5 +1,3 @@
-
-
 <?php
 include 'current_user.php';
 include 'customer_header.php';
@@ -8,7 +6,7 @@ include '../database/dbconnect.php';
 $errors = [];
 
 if(isset($_GET['bike_id'])){
-    $bike_id = $_GET['bike_id'];
+    $bike_id = intval($_GET['bike_id']);
     $stmt = $conn->prepare("SELECT * FROM bike WHERE b_id = ?");
     $stmt->bind_param("i", $bike_id);
     $stmt->execute();
@@ -21,6 +19,7 @@ if(isset($_GET['bike_id'])){
     $imageURL = "../admin/".$row["b_image"];
     $bikeURL = "../admin/".$row["b_number_plate"];
 }
+
 $ssql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'pending'";
 $stmt = $conn->prepare($ssql);
 $stmt->bind_param("i", $uid);
@@ -31,6 +30,7 @@ $nnum = $rresult->num_rows;
 if ($nnum > 0) {
     $errors[] = "Wait for your current request to be approved ";
 }
+
 $srsql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'approved'";
 $sstmt = $conn->prepare($srsql);
 $sstmt->bind_param("i", $uid);
@@ -41,13 +41,14 @@ $nnnum = $rrresult->num_rows;
 if ($nnnum > 0) {
     $errors[] = "Return the bike to rent again ";
 }
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $r_pickup_point = $_POST['pickup_point'];
-    $r_pickup_time = $_POST['pickup_time'];
-    $r_start_date = $_POST['start_date'];
-    $r_end_date = $_POST['end_date'];
-    $r_drop_off_time = $_POST['drop_time'];
-    $Picture = $_FILES['lpic']['name'];
+    $r_pickup_point = htmlspecialchars($_POST['pickup_point']); 
+    $r_pickup_time = htmlspecialchars($_POST['pickup_time']);
+    $r_start_date = htmlspecialchars($_POST['start_date']);
+    $r_end_date = htmlspecialchars($_POST['end_date']);
+    $r_drop_off_time = htmlspecialchars($_POST['drop_time']);
+    $Picture = htmlspecialchars($_FILES['lpic']['name']);
     $temp = $_FILES['lpic']['tmp_name']; 
     $folder = "../admin/pics/" . $Picture; 
     move_uploaded_file($temp, $folder);
@@ -81,7 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,7 +144,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Booking Form -->
     <form method="post" enctype="multipart/form-data">
-        <!-- Form Fields -->
         <label for="pickup_point">Pickup Point:</label>
     <input type="text" id="pickup_point" name="pickup_point" required>
     <label for="start_date">Start Date:</label>
@@ -159,7 +158,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input type="file" name="lpic" id="lpic" accept="image/*" required>
     <label for="rate">Rate:</label>
     <input type="number" id="rate" name="rate"  value="<?php echo $row['b_rate']; ?>" disabled >
-        <!-- ... -->
 
         <input type="submit" name="submit" value="Book Now">
         <!-- Span to display total cost -->

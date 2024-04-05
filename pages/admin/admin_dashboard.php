@@ -24,7 +24,6 @@ rent.r_status,
 rent.bike_id
 from customer 
 left join rent on customer.c_id = rent.customer_id
-
 ;
 
 ";

@@ -52,6 +52,7 @@ include 'footer.php';
                     $passwordHash = $row['a_password'];
                     if (password_verify($pass, $passwordHash)){
                         $_SESSION['admin'] = $email;
+                        $_SESSION['admin_logged']=true;
                         header("Location: ../admin/admin_dashboard.php");
                         exit();
                     } else {
@@ -75,6 +76,7 @@ include 'footer.php';
                     $passwordHash = $row['c_password'];
                     if (password_verify($pass, $passwordHash)) {
                         $_SESSION['user'] = $email;
+                        $_SESSION['user_logged']=true;
                         header("Location: ../customer/customer_dashboard.php");
                         exit();
                     } else {
