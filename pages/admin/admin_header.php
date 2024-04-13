@@ -48,6 +48,15 @@
             background-color: white;
             padding: 5px;
         }
+        .btn{
+            background: rgba(43, 46, 74, 0.2);
+            border: 1px solid #000000;
+            border-radius: 50px;
+
+        }
+        .btn:hover{
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -57,7 +66,7 @@
         <div class="right"><a href="admin_dashboard.php">Dashboard</a>
             <a href="admin.php">Bike</a>
             <a href="rental_request.php">Rentals</a>
-            <div class="btn"> <button onclick="newList()">Create new listing</button></div>
+            <div > <button class="btn" onclick="newList()">Create new listing</button></div>
             <div class="profile-container">
             <i class="fa-solid fa-user"></i>
                 <div class="logout" id="logout"><a href="../auth/logout.php">Logout</a></div>

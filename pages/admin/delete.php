@@ -1,6 +1,7 @@
 <?php
+include 'session.php';
 include '../database/dbconnect.php';
-if(isset($_GET['bike_id'])){
+if(isset($_GET['bike_id']) && $_SESSION['admin']){
     $bike_id = $_GET['bike_id'];
 
     // Check if the user confirmed deletion
@@ -14,6 +15,7 @@ if(isset($_GET['bike_id'])){
             exit(); 
         }
     } else {
+        
         // Ask for confirmation
         echo "<script>
                 if(confirm('Are you sure you want to remove this bike?')) {

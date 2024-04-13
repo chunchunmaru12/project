@@ -39,7 +39,6 @@ CREATE TABLE rent(
     r_drop_off_time TIME NOT NULL,    
     r_status varchar(255) DEFAULT 'pending' not null,
     c_license_photo varchar(255) not null,
-    is_returned boolean DEFAULT false,
     customer_id int,
     bike_id int,
     foreign key(customer_id) references customer(c_id),

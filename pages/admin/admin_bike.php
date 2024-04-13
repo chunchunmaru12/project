@@ -104,16 +104,17 @@ $row = $result->fetch_assoc();
 
     <?php
     if (isset($_POST['submit'])) {
-        $b_name = htmlspecialchars($_POST['b_name']); // Sanitize input
-        $b_brand = htmlspecialchars($_POST['b_brand']); // Sanitize input
-        $b_color = htmlspecialchars($_POST['b_color']); // Sanitize input
-        $b_rate = intval($_POST['b_rate']); // Sanitize input
-        $b_status = htmlspecialchars($_POST['b_status']); // Sanitize input
+        $b_name = htmlspecialchars($_POST['b_name']);
+        $b_brand = htmlspecialchars($_POST['b_brand']);
+        $b_color = htmlspecialchars($_POST['b_color']);
+        $b_rate = intval($_POST['b_rate']);
+        $b_status = htmlspecialchars($_POST['b_status']); 
 
         $sql = "UPDATE bike SET b_name = ?, b_brand = ?, b_color = ?, b_rate = ?, b_status = ? WHERE b_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssssi", $b_name, $b_brand, $b_color, $b_rate, $b_status, $bike_id); // "sssssi" stands for string, string, string, string, string, integer
         if ($stmt->execute()) {
+            
             echo "<script>alert('Updated ');</script>";
             echo "<script>window.location.href = 'admin.php';</script>";
         } else {
