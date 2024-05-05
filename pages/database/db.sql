@@ -7,7 +7,8 @@ CREATE TABLE customer(
     c_address varchar(255) not null,
     c_email varchar(255) unique not null ,
     c_password varchar(255) not null,
-    license_picture varchar(255) not null
+    license_picture varchar(255) not null,
+    is_rented TINYINT not null default 0
 );
 
 CREATE TABLE admin(

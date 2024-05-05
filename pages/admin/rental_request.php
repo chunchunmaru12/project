@@ -13,6 +13,7 @@ rent.r_pickup_time,
 rent.r_drop_off_time,
 rent.r_status,
 rent.is_returned,
+customer.c_id,
 customer.c_name,
 customer.c_contact,
 customer.c_address,
@@ -77,7 +78,7 @@ $result= mysqli_query($conn,$sql);
                     <?php elseif ($row['r_status'] == 'rejected'): ?>
                         <span>Rejected</span>
                     <?php else: ?>
-                        <a href="approval.php?rental_id=<?php echo $row['r_id'];?>&bike_id=<?php echo $row['b_id'];?>"><button class="bt">Approve</button></a>
+                        <a href="approval.php?rental_id=<?php echo $row['r_id'];?>&bike_id=<?php echo $row['b_id'];?>&customer_id=<?php echo $row['c_id']; ?>"><button class="bt">Approve</button></a>
                         <a href="rejection.php?rental_id=<?php echo $row['r_id']; ?>&bike_id=<?php echo $row['b_id'];?>"><button class="bt">Reject</button></a>
                     <?php endif; ?>
                 </div>

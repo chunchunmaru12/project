@@ -12,18 +12,10 @@ $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 $adminName = $row['a_name'];
 
-$userSql="
+$userSql = "
 SELECT 
-customer.c_id,
-customer.c_name,
-customer.c_email,
-customer.c_address,
-customer.c_contact,
-customer.license_picture,
-rent.r_status,
-rent.bike_id
+*
 from customer 
-left join rent on customer.c_id = rent.customer_id
 ;
 
 ";
@@ -56,7 +48,8 @@ $userResult = mysqli_query($conn, $userSql);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             text-align: center;
         }
 
@@ -66,7 +59,8 @@ $userResult = mysqli_query($conn, $userSql);
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 8px 12px;
             text-align: left;
@@ -104,13 +98,14 @@ $userResult = mysqli_query($conn, $userSql);
                         <th>Email</th>
                         <th>License Photo</th>
                         <th>Current Rentals</th>
+                        <th>Bike Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     if (mysqli_num_rows($userResult) > 0) {
                         while ($row = mysqli_fetch_assoc($userResult)) {
-                            ?>
+                    ?>
                             <tr>
                                 <td><?php echo $row['c_name']; ?></td>
                                 <td><?php echo $row['c_contact']; ?></td>
@@ -119,29 +114,61 @@ $userResult = mysqli_query($conn, $userSql);
                                 <td><img src="<?php echo $row['license_picture']; ?>"></td>
                                 <td>
                                     <?php
-                                    if($row['bike_id']){
-                                        $bid= $row['bike_id'];
-                                        $bike="SELECT b_name from bike where b_id='$bid'";
-                                        $res=mysqli_query($conn,$bike);
-                                        $rrow=mysqli_fetch_assoc($res);
-                                        echo $rrow['b_name'];  
-                                    }else{
-                                        echo 'no bookings';
+                                    if ($row['is_rented'] == 0) {
+                                        echo "no rentals";
+                                    } else {
+                                        $bikeSql = "select * from rent where r_status = 'approved' and customer_id =" . $row['c_id'] . "";
+                                        $bikeResult = mysqli_query($conn, $bikeSql);
+                                        $rrow = mysqli_fetch_assoc($bikeResult);
+                                        $bid = $rrow['bike_id'];
+                                        $bikeName = "select * from bike where b_id='$bid'";
+                                        $res = mysqli_query($conn, $bikeName);
+                                        $rrrow = mysqli_fetch_assoc($res);
+                                        echo $rrrow['b_name'];
                                     }
                                     ?>
                                 </td>
-                               
+                                <td>
+                                <?php
+                                    if ($row['is_rented'] == 1) {
+                                        echo "<form method='post'>";
+                                        echo "<input type='hidden' name='userId' value='" . $row['c_id'] . "'/>";
+                                        echo "<button type='submit' name='returned' onclick=\"return confirm('Are you sure the bike has been returned?');\">Returned</button>";
+                                        echo "</form>";
+                                    } else {
+                                        echo "No rentals";
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='6'>No users found</td></tr>";
+                        echo "<tr><td colspan='7'>No users found</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
     </div>
+    <?php
+
+    if (isset($_POST['returned'])) {
+        $userId = $_POST['userId'];
+        // Update the database to mark rental as returned for the user with $userId
+        $updatedSql="UPDATE customer SET is_rented = 0 WHERE c_id = $userId";
+        $updateResult = mysqli_query($conn, $updateSql);
+        if ($updateResult) {
+            // Database update successful
+            echo "<script>alert('Rental status updated successfully');</script>";
+            // You can redirect or refresh the page here if needed
+        } else {
+            // Database update failed
+            echo "<script>alert('Failed to update rental status');</script>";
+        }
+    }
+
+?>
 </body>
 
 </html>

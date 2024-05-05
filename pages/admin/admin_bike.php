@@ -91,11 +91,11 @@ $row = $result->fetch_assoc();
                 <input type="text" id="b_color" name="b_color" value="<?php echo htmlspecialchars($row['b_color']); ?>" required>
                 <label for="b_rate">Bike Rate:</label>
                 <input type="number" id="b_rate" name="b_rate" value="<?php echo htmlspecialchars($row['b_rate']); ?>" required>
-                <label for="b_status">Bike Status:</label>
-                <select id="b_status" name="b_status" required>
-                    <option value="unavailable" <?php if ($row['b_status'] == 'unavailable') echo 'selected'; ?>>Unavailable</option>
-                    <option value="available" <?php if ($row['b_status'] == 'available') echo 'selected'; ?>>Available</option>
-                </select>
+                <!-- <label for="b_status">Bike Status:</label> -->
+                <!-- <select id="b_status" name="b_status" required>
+                    <option value="unavailable"  #if ($row['b_status'] == 'unavailable') echo 'selected';>Unavailable</option>
+                    <option value="available" #if ($row['b_status'] == 'available') echo 'selected'; >Available</option>
+                </select> -->
 
                 <input type="submit" name="submit" value="Update">
             </form>
@@ -109,10 +109,9 @@ $row = $result->fetch_assoc();
         $b_color = htmlspecialchars($_POST['b_color']);
         $b_rate = intval($_POST['b_rate']);
         $b_status = htmlspecialchars($_POST['b_status']); 
-
-        $sql = "UPDATE bike SET b_name = ?, b_brand = ?, b_color = ?, b_rate = ?, b_status = ? WHERE b_id = ?";
+        $sql = "UPDATE bike SET b_name = ?, b_brand = ?, b_color = ?, b_rate = ? WHERE b_id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssi", $b_name, $b_brand, $b_color, $b_rate, $b_status, $bike_id); // "sssssi" stands for string, string, string, string, string, integer
+        $stmt->bind_param("ssssi", $b_name, $b_brand, $b_color, $b_rate, $bike_id); // "sssssi" stands for string, string, string, string, string, integer
         if ($stmt->execute()) {
             
             echo "<script>alert('Updated ');</script>";
@@ -121,7 +120,6 @@ $row = $result->fetch_assoc();
             $errors[] = "Error updating record: " . $stmt->error;
         }
     }
-
     if (!empty($errors)) {
         foreach ($errors as $error) {
             echo "<p>" . htmlspecialchars($error) . "</p>";

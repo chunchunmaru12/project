@@ -170,36 +170,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     var currentDate = new Date();
     var currentDateString = currentDate.toISOString().slice(0,10); // Format: YYYY-MM-DD
     var currentTimeString = currentDate.toTimeString().slice(0,5); // Format: HH:MM
+    
     var startDate = document.getElementById("start_date");
     startDate.min = currentDateString;
     startDate.addEventListener("change", updateTotalCost);
     var endDate = document.getElementById("end_date");
     endDate.min = currentDateString;
     endDate.addEventListener("change", updateTotalCost);
-    
+
     var pickupTime = document.getElementById("pickup_time");
-    pickupTime.min = currentTimeString;
     pickupTime.addEventListener("change", updateTotalCost);
-    
     var dropTime = document.getElementById("drop_time");
-    
     dropTime.addEventListener("change", updateTotalCost);
 
     function updateTotalCost() {
         var startDateTime = new Date(startDate.value + ' ' + pickupTime.value);
         var endDateTime = new Date(endDate.value + ' ' + dropTime.value);
+        var sd=startDateTime.toISOString().slice(0,10);
+        if(sd<currentDateString){
+            pickupTime.min = currentTimeString;
+        }
+        if (endDateTime <= startDateTime) {
+            alert("End date and time must be after the start date and time.");
+            // Reset the end date and time
+            endDate.value = startDate.value;
+            dropTime.value = pickupTime.value;
+            return;
+        }
+
         var duration = (endDateTime - startDateTime) / (1000 * 60); // Duration in minutes
         var ratePerHour = <?php echo $row['b_rate']; ?>; // Rate per hour from PHP
         if(duration > 600){ 
-          // if rate is greater than 10 hrs then rate is decreased by 30%
-          ratePerHour = ratePerHour*0.7;
+            // if rate is greater than 10 hrs then rate is decreased by 30%
+            ratePerHour = ratePerHour * 0.7;
         }
         var ratePerMinute = ratePerHour / 60; // Rate per minute
-      
-          var totalAmount = duration * ratePerMinute;
-        document.getElementById("totalCost").textContent = "Total Cost: RS" + totalAmount.toFixed(2);
+        var totalAmount = duration * ratePerMinute;
+        document.getElementById("totalCost").textContent = "Total Cost: RS " + totalAmount.toFixed(2);
     }
 
 </script>
+
 </body>
 </html>

@@ -6,23 +6,26 @@ include 'sidebar.php';
 
 $sql = "SELECT r.*, b.b_name 
         FROM rent r 
-        LEFT JOIN bike b ON r.bike_id = b.b_id
-        WHERE r.customer_id ='$uid'";
+        JOIN bike b ON r.bike_id = b.b_id
+        WHERE r.customer_id ='$uid'
+        
+        ";
+
 $result = mysqli_query($conn, $sql);
 $pendingBookings = [];
 $activeBookings = [];
 $cancelledBookings = [];
 
 if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        if ($row['r_status'] == 'pending') {
-            $pendingBookings[] = $row;
-        } elseif ($row['r_status'] == 'approved') {
-            $activeBookings[] = $row;
-        } elseif ($row['r_status'] == 'rejected') {
-            $cancelledBookings[] = $row;
-        }
+  while ($row = mysqli_fetch_assoc($result)) {
+    if ($row['r_status'] == 'pending') {
+      $pendingBookings[] = $row;
+    } elseif ($row['r_status'] == 'approved') {
+      $activeBookings[] = $row;
+    } elseif ($row['r_status'] == 'rejected') {
+      $cancelledBookings[] = $row;
     }
+  }
 }
 ?>
 <html lang="en">
@@ -91,12 +94,14 @@ if (mysqli_num_rows($result) > 0) {
     <div class="booking-status">
       <h2>Pending Bookings</h2>
       <ul class="booking-list">
-      <li class="booking-item pending">
-        <?php 
-            foreach ($pendingBookings as $booking) {
-                echo $booking['b_name'] ;
-            }
-            ?>
+        <li class="booking-item pending">
+          <?php
+          foreach ($pendingBookings as $booking) {
+            echo $booking['b_name'];
+            ?><button><a href="cancel.php?r_id=<?php echo $booking['r_id']; ?>&b_id=<?php echo $booking['bike_id'] ?>">Cancel</a></button>
+          <?php }
+          ?>
+          
         </li>
       </ul>
     </div>
@@ -105,36 +110,42 @@ if (mysqli_num_rows($result) > 0) {
       <h2>Active Bookings</h2>
       <ul class="booking-list">
         <li class="booking-item completed">
-        <?php 
-            foreach ($activeBookings as $booking) {
-                echo 
-                    $booking['b_name'] . '<br>' .
-                    'From: ' . $booking['r_pickup_point'] . ' ' . $booking['r_start_date'] . ' ' . $booking['r_pickup_time'] . '<br>' .
-                    'To:  ' . $booking['r_drop_off_time'] . ' ' . $booking['r_end_date'] . '<br>' .
-                    'Total rent: Rs ' . $booking['total_amount'] ;
-                    
-            }
-            ?>
+          <?php
+          foreach ($activeBookings as $booking) {
+            echo
+            $booking['b_name'] . '<br>' .
+              'From: ' . $booking['r_pickup_point'] . ' ' . $booking['r_start_date'] . ' ' . $booking['r_pickup_time'] . '<br>' .
+              'To:  ' . $booking['r_drop_off_time'] . ' ' . $booking['r_end_date'] . '<br>' .
+              'Total rent: Rs ' . $booking['total_amount'];
+          }
+          ?>
         </li>
-  
+
       </ul>
     </div>
     <div class="booking-status">
       <h2>Cancelled Bookings</h2>
       <ul class="booking-list">
         <li class="booking-item cancelled">
-        <?php
-          foreach ($cancelledBookings as $booking) {
-          echo '<br>';
-          echo  $booking['b_name'];
-      }
-        
-        ?>
-              
+          <?php
+          $bikeNames = array_column($cancelledBookings, 'b_name');
+
+          // Remove duplicates
+          $uniqueBikeNames = array_unique($bikeNames);
+
+          // Output the unique bike names
+          foreach ($uniqueBikeNames as $bikeName) {
+            echo $bikeName;
+            echo '<br>';
+          }
+          ?>
+
+
         </li>
       </ul>
     </div>
   </div>
+
 </body>
 
 </html>
