@@ -3,7 +3,6 @@ include 'admin_header.php';
 include '../auth/footer.php';
 include '../database/dbconnect.php';
 include 'session.php';
-
 $errors = [];
 
 if (isset($_GET['bike_id'])) {

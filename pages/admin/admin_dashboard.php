@@ -115,7 +115,7 @@ $userResult = mysqli_query($conn, $userSql);
                                 <td>
                                     <?php
                                     if ($row['is_rented'] == 0) {
-                                        echo "no rentals";
+                                        echo "-";
                                     } else {
                                         $bikeSql = "select * from rent where r_status = 'approved' and customer_id =" . $row['c_id'] . "";
                                         $bikeResult = mysqli_query($conn, $bikeSql);
@@ -156,11 +156,16 @@ $userResult = mysqli_query($conn, $userSql);
     if (isset($_POST['returned'])) {
         $userId = $_POST['userId'];
         // Update the database to mark rental as returned for the user with $userId
-        $updatedSql="UPDATE customer SET is_rented = 0 WHERE c_id = $userId";
-        $updateResult = mysqli_query($conn, $updateSql);
+        $updatedSql="UPDATE customer
+        JOIN rent on customer.c_id=rent.customer_id 
+        JOIN bike on bike.b_id=rent.bike_id
+        SET is_rented = 0,b_status='available',r_status='returned'  WHERE c_id = $userId";
+        $updateResult = mysqli_query($conn, $updatedSql);
         if ($updateResult) {
             // Database update successful
-            echo "<script>alert('Rental status updated successfully');</script>";
+            echo "<script>alert('Rental status updated successfully');
+            window.location.href='admin_dashboard.php';
+            </script>";
             // You can redirect or refresh the page here if needed
         } else {
             // Database update failed

@@ -2,13 +2,19 @@
 include 'customer_header.php';
 include 'current_user.php';
 include 'sidebar.php';
-$uid=$_GET['uid'];
+$cid=$_GET['uid'];
+if($uid!=$cid){
+    echo "<script>alert('Error updating user details');
+    window.location.href='customer_detail.php';
+    </script>";
+    exit();
+}
 if (isset($_POST['submit'])) {
     $name = $_POST['c_name'];
     $contact = $_POST['c_contact'];
     $address = $_POST['c_address'];
     $email = $_POST['c_email'];
-    $updateSql = "UPDATE customer SET c_name='$name', c_contact='$contact', c_address='$address', c_email='$email' WHERE c_id='$uid'";
+    $updateSql = "UPDATE customer SET c_name='$name', c_contact='$contact', c_address='$address', c_email='$email' WHERE c_id='$cid'";
     if (mysqli_query($conn, $updateSql)) {
         echo '<script>
     alert("User details updated successfully!");
@@ -18,9 +24,10 @@ if (isset($_POST['submit'])) {
         echo '<script>alert("Error updating user details: ' . mysqli_error($conn) . '");</script>';
     }
 }
-$sql = "SELECT * FROM customer WHERE c_id='$uid'";
+$sql = "SELECT * FROM customer WHERE c_id='$cid'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
+
 ?>
 
 <!DOCTYPE html>

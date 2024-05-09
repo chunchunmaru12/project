@@ -2,7 +2,6 @@
 include 'customer_header.php';
 include 'current_user.php';
 include 'sidebar.php';
-
 $sql = "SELECT * FROM customer WHERE c_id='$uid'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);

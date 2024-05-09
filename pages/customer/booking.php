@@ -15,6 +15,7 @@ $result = mysqli_query($conn, $sql);
 $pendingBookings = [];
 $activeBookings = [];
 $cancelledBookings = [];
+$historyBookings=[];
 
 if (mysqli_num_rows($result) > 0) {
   while ($row = mysqli_fetch_assoc($result)) {
@@ -24,6 +25,8 @@ if (mysqli_num_rows($result) > 0) {
       $activeBookings[] = $row;
     } elseif ($row['r_status'] == 'rejected') {
       $cancelledBookings[] = $row;
+    }elseif ($row['r_status'] == 'returned'){
+      $historyBookings[]=$row;
     }
   }
 }
@@ -82,6 +85,11 @@ if (mysqli_num_rows($result) > 0) {
       border-left: 5px solid #dc3545;
       /* Red */
     }
+    .booking-item.history {
+      border-left: 5px solid grey;
+      
+      /* Red */
+    }
   </style>
 </head>
 
@@ -98,7 +106,7 @@ if (mysqli_num_rows($result) > 0) {
           <?php
           foreach ($pendingBookings as $booking) {
             echo $booking['b_name'];
-            ?><button><a href="cancel.php?r_id=<?php echo $booking['r_id']; ?>&b_id=<?php echo $booking['bike_id'] ?>">Cancel</a></button>
+            ?><br><button><a href="cancel.php?r_id=<?php echo $booking['r_id']; ?>&b_id=<?php echo $booking['bike_id'] ?>">Cancel</a></button>
           <?php }
           ?>
           
@@ -139,12 +147,27 @@ if (mysqli_num_rows($result) > 0) {
             echo '<br>';
           }
           ?>
-
-
+        </li>
+      </ul>
+    </div>
+    <div class="booking-status">
+      <h2>Booking History</h2>
+      <ul class="booking-list">
+        <li class="booking-item history">
+          <?php
+          $bikeNames = array_column($historyBookings, 'b_name');
+          // Output the unique bike names
+          foreach ($bikeNames as $bikeName) {
+            echo $bikeName;
+            echo '<br>';
+          }
+          ?>
         </li>
       </ul>
     </div>
   </div>
+  
+
 
 </body>
 

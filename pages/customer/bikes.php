@@ -20,7 +20,7 @@ if(isset($_GET['bike_id'])){
     $bikeURL = "../admin/".$row["b_number_plate"];
 }
 
-$ssql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'pending'";
+$ssql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'pending' OR  r_status = 'approved'";
 $stmt = $conn->prepare($ssql);
 $stmt->bind_param("i", $uid);
 $stmt->execute();
@@ -31,7 +31,7 @@ if ($nnum > 0) {
     $errors[] = "Wait for your current request to be approved ";
 }
 
-$srsql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'approved'";
+$srsql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'approved' OR r_status = 'pending'";
 $sstmt = $conn->prepare($srsql);
 $sstmt->bind_param("i", $uid);
 $sstmt->execute();
@@ -74,8 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $conn->prepare($ssql);
             $stmt->bind_param("i", $bike_id);
             $stmt->execute();
-            echo "<script>alert('Booking Successful');</script>";
-            echo "<script>window.location.href = 'booking.php';</script>";
+            echo "<script>alert('Booking Successful'); 
+            window.location.href = 'booking.php';</script>";
         } else {
             $errors[] = "Error: " . $stmt->error;
         }
