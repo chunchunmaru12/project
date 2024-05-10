@@ -2,7 +2,13 @@
 include 'header.php';
 include 'footer.php';
 include '../database/dbconnect.php';
-
+session_start();
+if(isset($_SESSION['admin'])){
+    header("Location: ../admin/admin_dashboard.php");
+}
+if(isset($_SESSION['user'])){
+    header("Location: ../customer/customer_dashboard.php");
+}
 if (isset($_POST['register'])) {
     $fname = $_POST['fname'];
     $email = $_POST['email'];
@@ -13,20 +19,37 @@ if (isset($_POST['register'])) {
     $temp = $_FILES['lpic']['tmp_name'];
     $folder = "../admin/pics/" . $Picture;
     move_uploaded_file($temp, $folder);
-    try {
-        // Using prepared statements to prevent SQL injection
-        $stmt = $conn->prepare("INSERT INTO customer(c_contact, c_name, c_address, c_email, c_password, license_picture) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssss", $contact, $fname, $address, $email, $hashPasskey, $folder);
-        
-        if ($stmt->execute()) {
-            echo '<script>alert("Registered successfully"); window.location.href = "login.php"</script>';
-        } 
-        $stmt->close();
-    } catch (Exception $e) {
-        echo '<script>alert("Cannot register: User already exists ");</script>';
+    
+    // Check if email or phone number already exists
+    $checkEmail = $conn->prepare("SELECT c_id FROM customer WHERE c_email = ?");
+    $checkEmail->bind_param("s", $email);
+    $checkEmail->execute();
+    $result = $checkEmail->get_result();
+    $checkContact=$conn->prepare("SELECT c_id FROM customer WHERE c_contact = ?");
+    $checkContact->bind_param("s", $contact);
+    $checkContact->execute();
+    $rresult = $checkContact->get_result();
+    if ($result->num_rows > 0) {
+        echo '<script>alert("Cannot register: Email  already in use");</script>';
+    } else if($rresult->num_rows > 0){
+        echo '<script>alert("Cannot register: Phone number already in use");</script>';
+    }else{
+        try {
+            // Using prepared statements to prevent SQL injection
+            $stmt = $conn->prepare("INSERT INTO customer(c_contact, c_name, c_address, c_email, c_password, license_picture) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("isssss", $contact, $fname, $address, $email, $hashPasskey, $folder);
+            
+            if ($stmt->execute()) {
+                echo '<script>alert("Registered successfully"); window.location.href = "login.php"</script>';
+            } 
+            $stmt->close();
+        } catch (Exception $e) {
+            echo '<script>alert("Cannot register: User already exists ");</script>';
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

@@ -5,25 +5,10 @@ include '../database/dbconnect.php';
 include 'session.php';
 include 'sidebar.php';
 $sql="SELECT 
-rent.r_id,
-rent.r_pickup_point,
-rent.r_start_date,
-rent.r_end_date,
-rent.r_pickup_time,
-rent.r_drop_off_time,
-rent.r_status,
-rent.is_returned,
-customer.c_id,
-customer.c_name,
-customer.c_contact,
-customer.c_address,
-customer.c_email,
-bike.b_id,
-bike.b_name,
-bike.b_brand,
-bike.b_color,
-bike.b_rate
-FROM rent JOIN customer ON rent.customer_id = customer.c_id JOIN bike ON rent.bike_id = bike.b_id;";
+*
+FROM rent JOIN customer ON rent.customer_id = customer.c_id JOIN bike ON rent.bike_id = bike.b_id
+where rent.r_status='pending' or rent.r_status='approved' or rent.r_status='rejected'
+;";
 $result= mysqli_query($conn,$sql);
 ?>
 <!DOCTYPE html>

@@ -20,9 +20,10 @@ if(isset($_GET['bike_id'])){
     $bikeURL = "../admin/".$row["b_number_plate"];
 }
 
-$ssql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'pending' OR  r_status = 'approved'";
+$ssql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = ?";
 $stmt = $conn->prepare($ssql);
-$stmt->bind_param("i", $uid);
+$status_pending = 'pending'; 
+$stmt->bind_param("is", $uid, $status_pending); 
 $stmt->execute();
 $rresult = $stmt->get_result();
 $nnum = $rresult->num_rows;
@@ -31,9 +32,10 @@ if ($nnum > 0) {
     $errors[] = "Wait for your current request to be approved ";
 }
 
-$srsql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = 'approved' OR r_status = 'pending'";
+$srsql = "SELECT * FROM rent WHERE customer_id = ? AND  r_status = ? ";
 $sstmt = $conn->prepare($srsql);
-$sstmt->bind_param("i", $uid);
+$status_approved = 'approved';
+$sstmt->bind_param("is", $uid, $status_approved); 
 $sstmt->execute();
 $rrresult = $sstmt->get_result();
 $nnnum = $rrresult->num_rows;
@@ -42,7 +44,7 @@ if ($nnnum > 0) {
     $errors[] = "Return the bike to rent again ";
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['submit'])) {
     $r_pickup_point = htmlspecialchars($_POST['pickup_point']); 
     $r_pickup_time = htmlspecialchars($_POST['pickup_time']);
     $r_start_date = htmlspecialchars($_POST['start_date']);

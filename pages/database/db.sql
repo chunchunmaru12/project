@@ -30,27 +30,27 @@ CREATE TABLE bike(
     b_rate int not null,
     b_status VARCHAR(50) NOT NULL DEFAULT 'available'
 );
-CREATE TABLE rent(
-    r_id int primary key auto_increment,
-    r_pickup_point varchar(255) not null,
+CREATE TABLE rent (
+    r_id int PRIMARY KEY AUTO_INCREMENT,
+    r_pickup_point varchar(255) NOT NULL,
     r_start_date date NOT NULL,
     r_end_date date NOT NULL,
-    r_pickup_time TIME not null,
-    r_drop_off_point varchar(255) not null,
+    r_pickup_time TIME NOT NULL,
+    r_drop_off_point varchar(255) NOT NULL,
     r_drop_off_time TIME NOT NULL,    
-    r_status varchar(255) DEFAULT 'pending' not null,
-    c_license_photo varchar(255) not null,
+    r_status varchar(255) DEFAULT 'pending' NOT NULL,
+    c_license_photo varchar(255) NOT NULL,
     customer_id int,
     bike_id int,
-    foreign key(customer_id) references customer(c_id),
-    foreign key(bike_id) references bike(b_id)
+    FOREIGN KEY (customer_id) REFERENCES customer(c_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (bike_id) REFERENCES bike(b_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE payment(
-    p_id int primary key auto_increment,
-    p_status TINYINT DEFAULT 0,
-    p_amount int not null,
+
+CREATE TABLE payment (
+    p_id int PRIMARY KEY AUTO_INCREMENT,
+    p_amount int NOT NULL,
     c_id int,
-    foreign key(c_id) references rent(r_id);
+    FOREIGN KEY (c_id) REFERENCES rent(customer_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

@@ -1,5 +1,12 @@
 <?php include 'header.php';
 include 'footer.php';
+session_start();
+if(isset($_SESSION['admin'])){
+    header("Location: ../admin/admin_dashboard.php");
+}
+if(isset($_SESSION['user'])){
+    header("Location: ../customer/customer_dashboard.php");
+}
 ?>
 <html lang="en">
 <head>
