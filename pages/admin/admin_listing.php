@@ -16,6 +16,8 @@ $b_color = trim(htmlspecialchars(mysqli_real_escape_string($conn, $_POST['b_colo
 
     if (empty($b_name) || empty($b_brand) || empty($b_color) || empty($b_rate)) {
         $errors[] = "All fields are required";
+    } elseif ($b_rate < 0) {
+        $errors[] = "Bike rate cannot be negative";
     }
 
     // Validate uploaded images
