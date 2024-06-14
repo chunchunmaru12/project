@@ -54,27 +54,5 @@ CREATE TABLE payment (
 );
 
 
---     SELECT 
---     rent.r_id,
---     rent.r_pickup_point,
---     rent.r_start_date,
---     rent.r_end_date,
---     rent.r_pickup_time,
---     rent.r_drop_off_point,
---     rent.r_drop_off_time,
---     rent.r_status,
---     rent.is_returned,
---     customer.c_name,
---     customer.c_contact,
---     customer.c_address,
---     customer.c_email,
---     bike.b_name,
---     bike.b_brand,
---     bike.b_color,
---     bike.b_rate
--- FROM 
---     rent
--- JOIN 
---     customer ON rent.customer_id = customer.c_id
--- JOIN 
---     bike ON rent.bike_id = bike.b_id;
+insert into admin(a_name,a_address,a_email,a_password,a_contact) values('admin','patan','test@gmail.com','$2y$10$p3R68mll5yVga4HjdJGXuO/4kyVHCut8eu4klw8MxmJda0JC1ipLa','9851121052');
+-- password: noorullah
